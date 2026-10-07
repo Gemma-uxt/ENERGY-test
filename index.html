@@ -3,50 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>에너지 시장정보 - 환율</title>
+<title>에너지 시장 주요정보</title>
 <style>
-:root{--ink:#1b2a41;--mut:#66758a;--line:#dde5ef;--bg:#f5f8fc;--acc:#2f6fb3;color-scheme:light}
+:root{--navy:#1b3358;--ink:#1a2230;--mut:#66758a;--line:#d9e1ec;--bg:#f4f7fb;--up:#d6323b;--down:#1f62b5;color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.5}
-main{max-width:640px;margin:0 auto;padding:40px 20px}
-h1{font-size:24px;margin:0 0 4px}
-.sub{color:var(--mut);font-size:14px;margin:0 0 24px}
-.list{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.row{display:flex;justify-content:space-between;align-items:baseline;padding:18px 22px;border-top:1px solid var(--line)}
-.row:first-child{border-top:0}
-.name{font-size:16px}
-.name small{display:block;color:var(--mut);font-size:13px}
-.val{font-size:26px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums}
-.val small{font-size:14px;font-weight:400;color:var(--mut);margin-left:4px}
-.msg{padding:24px;color:var(--mut)}
+header{background:var(--navy);color:#fff;padding:22px 5vw;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+header h1{margin:0;font-size:26px}
+header p{margin:4px 0 0;font-size:13px;color:#b9c6da}
+nav{display:flex;gap:10px}
+.btn{padding:10px 18px;border-radius:6px;background:#e8eef7;color:var(--navy);font-weight:600;font-size:14px;text-decoration:none}
+.btn.off{opacity:.45;cursor:default}
+main{max-width:980px;margin:0 auto;padding:28px 5vw 48px}
+h2{font-size:19px;margin:0 0 12px;border-left:5px solid var(--navy);padding-left:10px}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}
+th,td{padding:12px 14px;border:1px solid var(--line);text-align:center;font-size:15px}
+th{background:#eef2f7;color:var(--navy);font-size:14px}
+td.l{text-align:left}
+td.l small{color:var(--mut);margin-left:6px}
+td.g{font-weight:700;color:var(--navy);background:#fafcff}
+td.p{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}
+.up{color:var(--up)}.down{color:var(--down)}.na{color:#9aa6b6}
+.note{margin:12px 2px 0;font-size:12.5px;color:var(--mut)}
+.err{margin-top:14px;padding:10px 14px;background:#fff4e5;border:1px solid #f0cf9b;border-radius:6px;font-size:13px;color:#7a4a05}
 </style>
 </head>
 <body>
+<header>
+  <div><h1>에너지 시장 주요정보</h1><p id="sub">불러오는 중…</p></div>
+  <nav>
+    <span class="btn off" title="준비 중">전력시장 전일실적 ›</span>
+    <span class="btn off" title="준비 중">TMS ›</span>
+  </nav>
+</header>
 <main>
-  <h1>환율</h1>
-  <p class="sub" id="sub">불러오는 중…</p>
-  <div class="list" id="list"><div class="msg">데이터를 불러오는 중입니다.</div></div>
+  <h2>주요 시장지표</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>분류</th><th>지표</th><th>가격</th><th>기준일</th><th>전일 대비</th></tr></thead>
+    <tbody id="body"></tbody>
+  </table></div>
+  <p class="note">환율은 한국수출입은행 매매기준율(영업일 기준), 국제유가·JKM은 OilPriceAPI 기준입니다. 휴장일에는 직전 영업일 값이 표시됩니다. 값이 없는 지표는 아직 연결 전입니다.</p>
+  <div id="err"></div>
 </main>
 <script>
-var NAMES = {"USD":["미국 달러","USD 1달러"],"JPY(100)":["일본 엔","JPY 100엔"],"EUR":["유로","EUR 1유로"],"CNH":["중국 위안","CNH 1위안"]};
-fetch("indicators.json?t=" + Date.now())
-  .then(function(r){ if(!r.ok) throw new Error("파일 없음"); return r.json(); })
-  .then(function(d){
-    var fx = d.fx, d8 = fx.date;
-    document.getElementById("sub").textContent =
-      "기준일 " + d8.slice(0,4) + "-" + d8.slice(4,6) + "-" + d8.slice(6) + " · 수집 " + d.updated_at + " · 출처 한국수출입은행";
-    var html = "";
-    Object.keys(NAMES).forEach(function(k){
-      if (!fx.rates[k]) return;
-      html += '<div class="row"><div class="name">' + NAMES[k][0] + '<small>' + NAMES[k][1] +
-              '</small></div><div class="val">' + fx.rates[k] + '<small>원</small></div></div>';
+var DAY = ["일","월","화","수","목","금","토"];
+function f2(x){ return x.toLocaleString("ko-KR",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function dstr(s){ var p=s.split("-"), d=new Date(+p[0],+p[1]-1,+p[2]); return (+p[1])+"."+(+p[2])+"("+DAY[d.getDay()]+")"; }
+function change(it){
+  if(!it || it.prev==null) return '<span class="na">-</span>';
+  var d=it.value-it.prev, pct=d/it.prev*100, cls=d>0?"up":(d<0?"down":""), ar=d>0?"▲":(d<0?"▼":"–");
+  return '<span class="'+cls+'">'+ar+" "+f2(Math.abs(d))+" ("+(pct>=0?"+":"")+pct.toFixed(1)+"%)</span>";
+}
+fetch("indicators.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
+  var fx=d.fx||{}, oil=d.oil||{};
+  document.getElementById("sub").textContent = (fx.date ? "기준일: "+fx.date.replace(/-/g,".")+" | " : "") + "수집 "+d.updated_at;
+  var G=[
+    ["환율",[["원/달러","매매기준율",fx.usd],["원/100엔","매매기준율",fx.jpy]]],
+    ["국제유가",[["두바이유","$/bbl",oil.dubai],["브렌트유","$/bbl",oil.brent],["WTI","$/bbl",oil.wti]]],
+    ["LNG",[["JKM","USD/MMBtu",oil.jkm]]],
+    ["탄소·REC",[["배출권","원/톤",null],["REC","원/REC",null]]],
+    ["SMP",[["가중평균","원/kWh",null],["최고","원/kWh",null],["최저","원/kWh",null]]]
+  ], h="";
+  G.forEach(function(g){
+    g[1].forEach(function(r,i){
+      var it=r[2];
+      h+="<tr>"+(i==0?'<td class="g" rowspan="'+g[1].length+'">'+g[0]+"</td>":"")+
+        '<td class="l">'+r[0]+"<small>"+r[1]+"</small></td>"+
+        (it ? '<td class="p">'+f2(it.value)+"</td><td>"+dstr(it.date)+"</td><td>"+change(it)+"</td>"
+            : '<td class="na" colspan="3">준비 중</td>')+"</tr>";
     });
-    document.getElementById("list").innerHTML = html || '<div class="msg">표시할 데이터가 없습니다.</div>';
-  })
-  .catch(function(){
-    document.getElementById("sub").textContent = "";
-    document.getElementById("list").innerHTML = '<div class="msg">indicators.json을 찾을 수 없습니다. 자동 수집을 한 번 실행해 주세요.</div>';
   });
+  document.getElementById("body").innerHTML=h;
+  if(d.errors && d.errors.length) document.getElementById("err").innerHTML='<div class="err">일부 항목을 가져오지 못했습니다: '+d.errors.join(" / ")+"</div>";
+}).catch(function(){
+  document.getElementById("sub").textContent="";
+  document.getElementById("body").innerHTML='<tr><td colspan="5" class="na">indicators.json을 찾을 수 없습니다. 자동 수집을 한 번 실행해 주세요.</td></tr>';
+});
 </script>
 </body>
 </html>
