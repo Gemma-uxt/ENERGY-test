@@ -101,6 +101,14 @@ def main():
         except Exception:
             hist = {}
 
+    # 예전 기록("08")을 30분 단위("08:00", "08:30")로 변환
+    for day in hist.values():
+        for uid, lst in day.items():
+            new = []
+            for x in lst:
+                new += [x + ":00", x + ":30"] if len(x) == 2 else [x]
+            day[uid] = sorted(set(new))
+    
     for uid, words, rule, stacks in UNITS:
         items = []
         for w in words:
@@ -139,12 +147,14 @@ def main():
         else:
             status = "nodata"
 
-        # 가동 중이면 그 '시간대'를 기록 (같은 시간은 한 번만)
+        # 가동 중이면 그 '30분 구간'을 기록 (같은 구간은 한 번만)
         if status == "on" and unit_dt:
-            day, hour = unit_dt[:10], unit_dt[11:13]
+            day = unit_dt[:10]
+            hh, mm = unit_dt[11:13], unit_dt[14:16]
+            slot = hh + (":30" if mm >= "30" else ":00")
             lst = hist.setdefault(day, {}).setdefault(uid, [])
-            if hour not in lst:
-                lst.append(hour)
+            if slot not in lst:
+                lst.append(slot)
         hist.setdefault(TODAY, {})
 
         units.append({"id": uid, "status": status})
@@ -153,7 +163,7 @@ def main():
     def hours(day, uid):
         if day not in hist:
             return None
-        return len(hist[day].get(uid, []))
+        return len(hist[day].get(uid, [])) * 0.5
 
     for u in units:
         u["today_h"] = hours(TODAY, u["id"])
