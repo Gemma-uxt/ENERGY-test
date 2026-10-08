@@ -20,110 +20,110 @@
   .slide.past { transform: translateX(-70px); }
   .slide.on { opacity: 1; visibility: visible; transform: none; }
 
-  /* 내용이 차례로 떠오르는 효과 */
+  /* 차례로 떠오르는 효과 */
   .ani { opacity: 0; transform: translateY(18px); }
   .slide.on .ani { opacity: 1; transform: none;
                    transition: opacity .55s ease var(--d, .2s), transform .55s ease var(--d, .2s); }
 
   /* 노란 형광펜 효과 */
-  mark.hl { color: inherit; font-weight: 800; padding: 0 5px;
+  mark.hl { color: inherit; font-weight: 800; padding: 0 6px;
             background: linear-gradient(#ffe500, #ffe500) no-repeat 0 0 / 0% 100%;
             -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .slide.on mark.hl { background-size: 100% 100%; transition: background-size .8s ease var(--h, 1s); }
   .cover mark.hl { color: #1e3a6e; }
 
-  /* 공통 머리·꼬리 */
-  .head { background: #1e3a6e; color: #fff; padding: 22px 56px; display: flex; align-items: baseline; gap: 16px; }
-  .head .no { font-size: 20px; font-weight: 800; color: #8fb3ff; }
-  .head h2 { font-size: 30px; font-weight: 800; }
-  .body { flex: 1; padding: 24px 56px 6px; display: flex; flex-direction: column; gap: 20px; min-height: 0; }
+  /* ===== 공통 (모든 페이지 같은 글씨 규칙) ===== */
+  .head { background: #1e3a6e; color: #fff; padding: 20px 56px; display: flex; align-items: baseline; gap: 16px; }
+  .head .no { font-size: 22px; font-weight: 800; color: #8fb3ff; }
+  .head h2 { font-size: 34px; font-weight: 800; }
+  .body { flex: 1; padding: 22px 56px 6px; display: flex; flex-direction: column; gap: 18px; min-height: 0; }
   .foot { padding: 0 56px 12px; font-size: 12px; color: #9aa3b2; display: flex; justify-content: space-between; }
 
-  .msg { background: #fff; border-left: 8px solid #1e3a6e; border-radius: 8px; padding: 16px 26px;
-         font-size: 21px; line-height: 1.6; color: #1f2937; }
-  .msg .big { font-size: 25px; font-weight: 800; color: #1e3a6e; }
+  .msg { background: #fff; border-left: 8px solid #1e3a6e; border-radius: 8px; padding: 16px 28px;
+         line-height: 1.5; color: #1f2937; box-shadow: 0 3px 10px rgba(30,58,110,.07); }
+  .msg .big { font-size: 32px; font-weight: 800; color: #1e3a6e; }
+  .msg .mid { font-size: 28px; font-weight: 800; color: #1e3a6e; }
+  .msg .lead { font-size: 19px; color: #374151; }
   .msg small { font-size: 16px; color: #6b7280; }
-  .sec { font-size: 17px; font-weight: 800; color: #1e3a6e; padding-left: 12px;
-         border-left: 5px solid #1e3a6e; margin-bottom: 10px; line-height: 1.2; }
-  .sec small { font-weight: 500; color: #6b7280; font-size: 14px; }
+
   .cols { display: flex; gap: 28px; flex: 1; min-height: 0; }
-  .col { display: flex; flex-direction: column; }
+  .col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+  .sec { font-size: 19px; font-weight: 800; color: #1e3a6e; padding-left: 12px;
+         border-left: 5px solid #1e3a6e; margin-bottom: 10px; line-height: 1.25; }
+  .sec small { font-weight: 500; color: #6b7280; font-size: 15px; }
+  .panel { background: #fff; border: 1px solid #d5dbe5; border-radius: 10px; padding: 16px 22px; }
+  .grow { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 
   /* ===== 0. 표지 ===== */
   .cover { background: #1e3a6e; color: #fff; justify-content: center; padding: 0 100px; }
   .cover .tag { font-size: 18px; color: #8fb3ff; font-weight: 700; letter-spacing: 3px; }
-  .cover h1 { font-size: 62px; font-weight: 800; margin: 18px 0 18px; line-height: 1.25; }
-  .cover .sub { font-size: 25px; }
+  .cover h1 { font-size: 64px; font-weight: 800; margin: 18px 0 18px; line-height: 1.25; }
+  .cover .sub { font-size: 28px; }
   .cover .bar { width: 0; height: 6px; background: #4f8cff; margin: 40px 0 28px; border-radius: 3px; }
   .cover.on .bar { width: 110px; transition: width .8s ease .9s; }
   .cover .info { font-size: 18px; opacity: .7; }
 
   /* ===== 1. 목적·출처·도구 ===== */
-  table.src { width: 100%; border-collapse: separate; border-spacing: 0; background: #fff;
-              border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(30,58,110,.07); }
-  .src th { background: #1e3a6e; color: #fff; font-size: 14px; padding: 9px 14px; text-align: left; }
-  .src td { font-size: 16px; padding: 9px 14px; border-bottom: 1px solid #eef1f6; }
+  table.src { width: 100%; height: 100%; border-collapse: separate; border-spacing: 0; background: #fff;
+              border: 1px solid #d5dbe5; border-radius: 10px; overflow: hidden; }
+  .src th { background: #1e3a6e; color: #fff; font-size: 15px; padding: 9px 16px; text-align: left; }
+  .src td { font-size: 17px; padding: 6px 16px; border-bottom: 1px solid #eef1f6; }
   .src tr:last-child td { border-bottom: 0; }
   .src td.what { font-weight: 700; color: #1e3a6e; }
-  .src td.from { color: #4b5563; }
+  .src td.from { color: #4b5563; font-size: 16px; }
   .pg { display: inline-block; font-size: 11px; font-weight: 800; color: #fff; border-radius: 4px;
         padding: 2px 6px; margin-right: 8px; vertical-align: 2px; }
   .p1 { background: #4f8cff; } .p2 { background: #2a9d8f; } .p3 { background: #e07a2f; }
-  .vflow { display: flex; flex-direction: column; gap: 4px; }
-  .vstep { display: flex; align-items: center; gap: 14px; background: #fff; border-radius: 10px;
-           padding: 11px 18px; box-shadow: 0 3px 10px rgba(30,58,110,.07); }
-  .vstep .ic { width: 34px; height: 34px; border-radius: 50%; background: #1e3a6e; color: #fff;
+  .vflow { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 3px; }
+  .vstep { flex: 1; display: flex; align-items: center; gap: 16px; background: #fff; border: 1px solid #d5dbe5;
+           border-radius: 10px; padding: 0 20px; }
+  .vstep .ic { width: 36px; height: 36px; border-radius: 50%; background: #1e3a6e; color: #fff;
                font-weight: 800; display: flex; align-items: center; justify-content: center; flex: none; }
   .vstep b { font-size: 18px; color: #1e3a6e; display: block; }
-  .vstep span { font-size: 14px; color: #6b7280; }
-  .down { text-align: center; color: #4f8cff; font-size: 18px; line-height: 1; }
-  .zero { margin-top: 14px; background: #1e3a6e; color: #fff; border-radius: 10px; padding: 13px 18px;
-          display: flex; justify-content: space-around; font-size: 16px; }
+  .vstep span { font-size: 15px; color: #6b7280; }
+  .down { text-align: center; color: #4f8cff; font-size: 15px; line-height: 1; }
+  .zero { margin-top: 12px; background: #1e3a6e; color: #fff; border-radius: 10px; padding: 12px 18px;
+          display: flex; justify-content: space-around; font-size: 17px; }
   .zero b { color: #ffe500; font-size: 19px; }
 
   /* ===== 2. 페이지 소개 ===== */
   .cards { display: flex; gap: 24px; flex: 1; min-height: 0; }
-  .card { flex: 1; background: #fff; border-radius: 14px; padding: 18px 22px 18px; display: flex;
+  .card { flex: 1 1 0; background: #fff; border-radius: 14px; padding: 18px 22px; display: flex;
           flex-direction: column; border-top: 7px solid #1e3a6e; box-shadow: 0 4px 14px rgba(30,58,110,.08);
           transition: transform .2s, box-shadow .2s; }
   .card:hover { transform: translateY(-6px); box-shadow: 0 12px 26px rgba(30,58,110,.2); }
   .card .num { font-size: 13px; font-weight: 800; }
   .card h3 { font-size: 24px; color: #1e3a6e; margin: 4px 0 12px; }
   .pv { position: relative; height: 206px; border-radius: 8px; overflow: hidden; background: #e9eef6;
-        border: 1px solid #dde4ee; }
+        border: 1px solid #dde4ee; flex: none; }
   .pv iframe { position: absolute; left: 0; top: 0; width: 1280px; height: 808px; border: 0;
                transform: scale(.255); transform-origin: 0 0; pointer-events: none; }
   .pv .live { position: absolute; right: 8px; top: 8px; background: rgba(30,58,110,.85); color: #fff;
               font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 10px; }
   .card ul { list-style: none; flex: 1; margin-top: 10px; }
-  .card li { font-size: 16px; padding: 6px 0; border-bottom: 1px solid #eef1f6; }
+  .card li { font-size: 18px; padding: 6px 0; border-bottom: 1px solid #eef1f6; }
   .card li::before { content: "·"; color: #4f8cff; font-weight: 800; margin-right: 8px; }
-  .card .cycle { font-size: 13px; color: #6b7280; margin: 10px 0 10px; }
+  .card .cycle { font-size: 15px; color: #6b7280; margin: 10px 0; }
   .card .go { background: #1e3a6e; color: #fff; text-align: center; border-radius: 8px;
               padding: 10px; font-size: 16px; font-weight: 700; }
 
   /* ===== 3. 바이브코딩 사례 ===== */
-  .s3 .msg { font-size: 18px; padding: 13px 24px; }
-  .s3 .msg mark { font-size: 21px; }
-  .s3 .body { gap: 16px; }
-  .panel { background: #fff; border: 1px solid #d5dbe5; border-radius: 8px; padding: 14px 20px; }
-  .it { margin-bottom: 9px; }
-  .it:last-child { margin-bottom: 0; }
-  .it .t { font-size: 17px; font-weight: 800; color: #1f2937; }
+  .it .t { font-size: 18px; font-weight: 800; color: #1f2937; }
   .it .t::before { content: "●"; color: #1e3a6e; font-size: 12px; margin-right: 8px; vertical-align: 2px; }
-  .it .d { font-size: 14px; color: #4b5563; margin: 2px 0 0 20px; line-height: 1.5; }
-  .it .d small { color: #8a93a3; }
-  .bigdown { width: 0; height: 0; margin: 6px auto; border-left: 90px solid transparent;
-             border-right: 90px solid transparent; border-top: 22px solid #cfd6e1; }
-  .note2 { font-size: 13px; color: #4b5563; margin-bottom: 10px; }
+  .it .d { font-size: 15px; color: #4b5563; margin: 3px 0 0 20px; line-height: 1.5; }
+  .it .d small { color: #8a93a3; font-size: 14px; }
+  .spread { flex: 1; display: flex; flex-direction: column; justify-content: space-around; }
+  .bigdown { width: 0; height: 0; margin: 8px auto; border-left: 90px solid transparent;
+             border-right: 90px solid transparent; border-top: 20px solid #cfd6e1; }
+  .note2 { font-size: 15px; color: #4b5563; margin-bottom: 10px; }
+  .note2 small { color: #8a93a3; font-size: 14px; }
   .hflow { display: flex; align-items: center; gap: 8px; }
-  .hflow div { flex: 1; background: #e6e9f5; border-radius: 6px; text-align: center; padding: 10px 4px;
-               font-size: 16px; font-weight: 800; color: #1e3a6e; }
+  .hflow div { flex: 1; background: #e6e9f5; border-radius: 6px; text-align: center; padding: 11px 4px;
+               font-size: 18px; font-weight: 800; color: #1e3a6e; }
   .hflow i { font-style: normal; color: #6b7280; font-weight: 800; }
-  .badge { display: inline-block; font-size: 12px; font-weight: 800; color: #fff; border-radius: 4px;
-           padding: 2px 7px; margin-right: 7px; vertical-align: 2px; }
+  .badge { display: inline-block; font-size: 13px; font-weight: 800; color: #fff; border-radius: 4px;
+           padding: 2px 8px; margin-right: 8px; vertical-align: 2px; }
   .b1 { background: #4f8cff; } .b2 { background: #1e3a6e; } .b3 { background: #2a9d8f; } .b4 { background: #d9534f; }
-  .r .it { margin-bottom: 12px; }
   .r .it .t::before { content: none; }
 
   /* ===== 이동 버튼 ===== */
@@ -156,7 +156,7 @@
     <h1 class="ani" style="--d:.3s">에너지 시장 모니터링<br>대시보드 구축</h1>
     <div class="sub ani" style="--d:.5s"><mark class="hl" style="--h:1.1s">공공데이터 자동 수집</mark> 기반 웹페이지 3종</div>
     <div class="bar"></div>
-    <div class="info ani" style="--d:1s">2026. 10. &nbsp;|&nbsp; 에너지사업담당 사업기획팀</div>
+    <div class="info ani" style="--d:1s">2026. 10. &nbsp;|&nbsp; ○○팀 ○○○</div>
   </section>
 
   <!-- ===== 1. 목적과 사용 도구 ===== -->
@@ -168,20 +168,22 @@
         <small>여러 사이트를 돌며 직접 확인하던 정보를 자동 수집해 웹페이지로 제공</small>
       </div>
       <div class="cols">
-        <div class="col ani" style="flex:1.15; --d:.4s">
+        <div class="col ani" style="--d:.4s">
           <div class="sec">어떤 정보를, 어디서 <small>— 모두 공식 출처에서 자동 수집</small></div>
-          <table class="src">
-            <tr><th>정보</th><th>출처</th></tr>
-            <tr><td class="what"><span class="pg p1">P1</span>환율 (USD · JPY)</td><td class="from">한국수출입은행</td></tr>
-            <tr><td class="what"><span class="pg p1">P1</span>국제유가 · JKM</td><td class="from">OilPriceAPI</td></tr>
-            <tr><td class="what"><span class="pg p2">P2</span>SMP · 수요예측</td><td class="from">한국전력거래소 (공공데이터포털)</td></tr>
-            <tr><td class="what"><span class="pg p2">P2</span>전력수급실적</td><td class="from">한국전력거래소 홈페이지</td></tr>
-            <tr><td class="what"><span class="pg p2">P2</span>발전원별 발전량</td><td class="from">한국전력거래소 (공공데이터포털)</td></tr>
-            <tr><td class="what"><span class="pg p2">P2</span>공휴일</td><td class="from">한국천문연구원 (공공데이터포털)</td></tr>
-            <tr><td class="what"><span class="pg p3">P3</span>발전기 가동 상태</td><td class="from">한국환경공단 굴뚝원격감시(TMS)</td></tr>
-          </table>
+          <div class="grow">
+            <table class="src">
+              <tr><th>정보</th><th>출처</th></tr>
+              <tr><td class="what"><span class="pg p1">P1</span>환율 (USD · JPY)</td><td class="from">한국수출입은행</td></tr>
+              <tr><td class="what"><span class="pg p1">P1</span>국제유가 · JKM</td><td class="from">OilPriceAPI</td></tr>
+              <tr><td class="what"><span class="pg p2">P2</span>SMP · 수요예측</td><td class="from">한국전력거래소 (공공데이터포털)</td></tr>
+              <tr><td class="what"><span class="pg p2">P2</span>전력수급실적</td><td class="from">한국전력거래소 홈페이지</td></tr>
+              <tr><td class="what"><span class="pg p2">P2</span>발전원별 발전량</td><td class="from">한국전력거래소 (공공데이터포털)</td></tr>
+              <tr><td class="what"><span class="pg p2">P2</span>공휴일</td><td class="from">한국천문연구원 (공공데이터포털)</td></tr>
+              <tr><td class="what"><span class="pg p3">P3</span>발전기 가동 상태</td><td class="from">한국환경공단 굴뚝원격감시(TMS)</td></tr>
+            </table>
+          </div>
         </div>
-        <div class="col ani" style="flex:1; --d:.65s">
+        <div class="col ani" style="--d:.65s">
           <div class="sec">사용 도구와 작동 구조</div>
           <div class="vflow">
             <div class="vstep"><div class="ic">1</div><div><b>공공데이터 API</b><span>기관이 공개한 데이터 창구</span></div></div>
@@ -203,8 +205,9 @@
   <section class="slide">
     <div class="head"><span class="no">02</span><h2>3개 페이지를 구성했습니다</h2></div>
     <div class="body">
-      <div class="msg ani" style="--d:.15s; font-size:19px; padding:12px 24px">
-        모든 데이터는 <mark class="hl" style="--h:.9s">사람 손 없이 자동 갱신</mark> &nbsp;<small>— 카드를 누르면 실제 페이지가 열립니다</small>
+      <div class="msg ani" style="--d:.15s">
+        <span class="mid">모든 데이터는 <mark class="hl" style="--h:.9s">사람 손 없이 자동 갱신</mark></span>
+        &nbsp;<small>— 카드를 누르면 실제 페이지가 열립니다</small>
       </div>
       <div class="cards">
         <a class="card ani" style="--d:.35s" data-page="market.html" href="market.html" target="_blank">
@@ -237,49 +240,54 @@
   </section>
 
   <!-- ===== 3. 바이브코딩 사례 ===== -->
-  <section class="slide s3">
+  <section class="slide">
     <div class="head"><span class="no">03</span><h2>IT 비전공자의 바이브코딩 사례</h2></div>
     <div class="body">
       <div class="msg ani" style="--d:.15s">
-        생성형 AI와의 대화<small>(Vibe Coding)</small>만으로 구축한 사례로서, 기존 전문인력의 영역이었던 데이터 수집·화면제작을
-        현업부서에서 <b>직접 구축·수정·운영</b> &nbsp;→&nbsp; <mark class="hl" style="--h:.9s">현업 아이디어의 즉시 시스템화 및 확장 가능</mark>
+        <span class="lead">생성형 AI와의 대화<small>(Vibe Coding)</small>만으로 구축한 사례로서, 기존 전문인력의 영역이었던
+        데이터 수집·화면제작을 현업부서에서 <b>직접 구축·수정·운영</b></span><br>
+        <span class="mid" style="font-size:30px">→ <mark class="hl" style="--h:.9s">현업 아이디어의 즉시 시스템화 및 확장 가능</mark></span>
       </div>
       <div class="cols">
-        <div class="col" style="flex:1">
-          <div class="ani" style="--d:.45s">
+        <div class="col">
+          <div class="grow ani" style="--d:.45s">
             <div class="sec">구축방법 : AI와 대화로 프로그램 작성·구축 <small>(바이브코딩)</small></div>
-            <div class="panel">
-              <div class="it"><div class="t">필요한 정보와 화면 형태를 대화로 전달</div>
-                <div class="d">→ 정보수집·자동실행·웹 구현 프로그래밍을 AI가 수행</div></div>
-              <div class="it"><div class="t">오류 발생 시 화면을 캡처하여 전달</div>
-                <div class="d">→ AI가 원인 분석 후 수정방법 제안 <small>(코딩 수정, 파일교체 등)</small></div></div>
-              <div class="it"><div class="t">구동결과 확인·검증 후 추가사항 요청</div>
-                <div class="d">→ AI가 구현방안 제공</div></div>
+            <div class="panel grow">
+              <div class="spread">
+                <div class="it"><div class="t">필요한 정보와 화면 형태를 대화로 전달</div>
+                  <div class="d">→ 정보수집·자동실행·웹 구현 프로그래밍을 AI가 수행</div></div>
+                <div class="it"><div class="t">오류 발생 시 화면을 캡처하여 전달</div>
+                  <div class="d">→ AI가 원인 분석 후 수정방법 제안 <small>(코딩 수정, 파일교체 등)</small></div></div>
+                <div class="it"><div class="t">구동결과 확인·검증 후 추가사항 요청</div>
+                  <div class="d">→ AI가 구현방안 제공</div></div>
+              </div>
             </div>
           </div>
           <div class="bigdown ani" style="--d:.7s"></div>
           <div class="ani" style="--d:.85s">
             <div class="sec">작동원리 : 작성한 프로그램을 클라우드 서비스에서 실행</div>
             <div class="panel">
-              <div class="note2">코딩된 절차에 따라 이행 <small style="color:#8a93a3">(출처지정, 수집주기, 정리·분석, 게시 레이아웃 등)</small></div>
+              <div class="note2">코딩된 절차에 따라 이행 <small>(출처지정, 수집주기, 정리·분석, 게시 레이아웃 등)</small></div>
               <div class="hflow"><div>자료출처</div><i>→</i><div>자동수집</div><i>→</i><div>정리·보관</div><i>→</i><div>화면게시</div></div>
             </div>
           </div>
         </div>
-        <div class="col r ani" style="flex:1; --d:1.05s">
+        <div class="col r ani" style="--d:1.05s">
           <div class="sec">향후 계획 및 시사점</div>
-          <div class="panel" style="flex:1; padding:16px 22px">
-            <div class="it"><div class="t"><span class="badge b1">보완</span>Web 지속 개선</div>
-              <div class="d">- 오류 최소화, 지표 추가 등</div></div>
-            <div class="it"><div class="t"><span class="badge b2">시사점</span><mark class="hl" style="--h:1.7s">아이디어 실현의 장벽 해소</mark></div>
-              <div class="d">- 아이디어와 처리절차를 정하면 AI가 구현<br>&nbsp;&nbsp;: 아이디어 추가개발, 처리절차 보완까지 AI가 지원</div></div>
-            <div class="it"><div class="t"><span class="badge b3">확장</span>반복업무 자동화</div>
-              <div class="d">- 사업기획팀 사례<small>(단순정보 취합 Web)</small>는 활용도의 일부,<br>&nbsp;&nbsp;현업 반복업무 적용 시 활용분야 다양·광범위</div></div>
-            <div class="it"><div class="t"><span class="badge b4">유의</span>고려사항</div>
-              <div class="d">- 수집 가능 자료가 있어야 구현 가능 <small>(자료탐색 시간 소요)</small><br>
-                - 아이디어·처리방식 구상은 결국 <b>사람의 몫</b><br>
-                - 문서보안(DRM) 등 보안정책 관련 제약 존재<br>
-                - 기밀유지 <small>(민감정보 AI 입력 제한, 외부유출 유의)</small></div></div>
+          <div class="panel grow">
+            <div class="spread">
+              <div class="it"><div class="t"><span class="badge b1">보완</span>Web 지속 개선</div>
+                <div class="d">- 오류 최소화, 지표 추가 등</div></div>
+              <div class="it"><div class="t"><span class="badge b2">시사점</span><mark class="hl" style="--h:1.7s">아이디어 실현의 장벽 해소</mark></div>
+                <div class="d">- 아이디어와 처리절차를 정하면 AI가 구현<br>&nbsp;&nbsp;: 아이디어 추가개발, 처리절차 보완까지 AI가 지원</div></div>
+              <div class="it"><div class="t"><span class="badge b3">확장</span>반복업무 자동화</div>
+                <div class="d">- 사업기획팀 사례<small>(단순정보 취합 Web)</small>는 활용도의 일부,<br>&nbsp;&nbsp;현업 반복업무 적용 시 활용분야 다양·광범위</div></div>
+              <div class="it"><div class="t"><span class="badge b4">유의</span>고려사항</div>
+                <div class="d">- 수집 가능 자료가 있어야 구현 가능 <small>(자료탐색 시간 소요)</small><br>
+                  - 아이디어·처리방식 구상은 결국 <b>사람의 몫</b><br>
+                  - 문서보안(DRM) 등 보안정책 관련 제약 존재<br>
+                  - 기밀유지 <small>(민감정보 AI 입력 제한, 외부유출 유의)</small></div></div>
+            </div>
           </div>
         </div>
       </div>
