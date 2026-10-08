@@ -1,6 +1,7 @@
 """발전원별 발전량(계통기준, 5분 단위) 수집 -> power_mix.json
 - 한국전력거래소_발전원별 발전량(계통기준)
 - 매시간 실행해 기록을 쌓고, 시간대별 평균을 계산
+- 접속이 안 되면 기존 기록을 그대로 두고 '수집 지연'으로 표시
 """
 import json
 import os
@@ -12,7 +13,6 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 KEY = os.environ.get("DATA_GO_KR_KEY", "").strip()
-# ▼ data.go.kr 마이페이지에서 확인한 End Point + 기능 이름
 MIX_URL = "https://apis.data.go.kr/B552115/PwrAmountByGen/getPwrAmountByGen"
 NOW = datetime.now(timezone(timedelta(hours=9)))
 FILE = Path("power_mix.json")
@@ -23,6 +23,7 @@ FUELS = {
     "fuelPwr4": "원자력", "fuelPwr5": "양수", "fuelPwr6": "LNG",
     "fuelPwr7": "국내탄", "fuelPwr8": "신재생", "fuelPwr9": "태양광",
 }
+
 
 def call():
     q = urllib.parse.urlencode({
@@ -41,6 +42,7 @@ def call():
             last = e
         time.sleep(10)
     raise last
+
 
 def find_rows(obj, out):
     if isinstance(obj, dict):
@@ -89,6 +91,7 @@ def main():
         except Exception:
             old = {}
     raw, errors, sample = old.get("raw", {}), [], old.get("sample")
+    debug = None
 
     try:
         rows = []
@@ -107,7 +110,7 @@ def main():
             raw.setdefault(day, {})[s[8:12]] = vals
         print(len(rows), "건 수집")
     except Exception as e:
-        errors.append(f"발전원별 발전량 수집 실패 ({type(e).__name__}) {e}".strip())
+        debug = f"{type(e).__name__}: {e}"      # 원인은 기록만 하고 화면엔 '지연'으로
 
     for d in sorted(raw)[:-KEEP_DAYS]:
         del raw[d]
@@ -134,16 +137,23 @@ def main():
         hm = max(raw[d])
         latest = {"time": f"{d} {hm[:2]}:{hm[2:]}", "values": extras(raw[d][hm])}
 
+    if debug:
+        upto = latest["time"][11:] if latest else "직전"
+        errors.append(f"발전원별 발전량 수집 지연: 공공데이터포털 연결이 불안정해 {upto} 자료까지 표시 중입니다. "
+                      f"연결되면 자동으로 채워집니다.")
+
     result = {
         "updated_at": NOW.strftime("%Y-%m-%d %H:%M"),
+        "delayed": bool(debug),
         "latest": latest,
         "days": days,
         "raw": raw,
         "sample": sample,
         "errors": errors,
+        "debug": debug,
     }
     FILE.write_text(json.dumps(result, ensure_ascii=False, indent=1), encoding="utf-8")
-    print("저장 완료. 실패:", errors or "없음")
+    print("저장 완료.", "지연: " + debug if debug else "정상")
 
 
 if __name__ == "__main__":
