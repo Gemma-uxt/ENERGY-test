@@ -1,0 +1,336 @@
+{
+  "updated_at": "2026-10-08 09:40",
+  "measured_at": "2026-10-08 08:30",
+  "units": [
+    {
+      "name": "에스파워",
+      "status": "on",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "on",
+          "nox": 5.27,
+          "std": "25"
+        },
+        {
+          "no": "2",
+          "state": "on",
+          "nox": 5.28,
+          "std": "25"
+        }
+      ]
+    },
+    {
+      "name": "삼천리",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        },
+        {
+          "no": "2",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        }
+      ]
+    },
+    {
+      "name": "안산도시개발",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "2",
+          "state": "off",
+          "nox": null,
+          "std": "40"
+        }
+      ]
+    },
+    {
+      "name": "GS파워 안양 1호기",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "7",
+          "state": "off",
+          "nox": null,
+          "std": "17"
+        }
+      ]
+    },
+    {
+      "name": "GS파워 안양 2호기",
+      "status": "on",
+      "stacks": [
+        {
+          "no": "8",
+          "state": "on",
+          "nox": 3.51,
+          "std": "17"
+        }
+      ]
+    },
+    {
+      "name": "GS파워 부천",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "off",
+          "nox": null,
+          "std": "40"
+        },
+        {
+          "no": "2",
+          "state": "off",
+          "nox": null,
+          "std": "40"
+        },
+        {
+          "no": "3",
+          "state": "off",
+          "nox": null,
+          "std": "40"
+        }
+      ]
+    },
+    {
+      "name": "청라에너지",
+      "status": "hidden",
+      "stacks": []
+    },
+    {
+      "name": "인천종합에너지",
+      "status": "partial",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "on",
+          "nox": 2.35,
+          "std": "23"
+        },
+        {
+          "no": "2",
+          "state": "off",
+          "nox": null,
+          "std": "23"
+        }
+      ]
+    },
+    {
+      "name": "위드인천에너지",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "off",
+          "nox": null,
+          "std": "30"
+        }
+      ]
+    },
+    {
+      "name": "SK E&S 위례",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "off",
+          "nox": null,
+          "std": "17"
+        }
+      ]
+    },
+    {
+      "name": "SK E&S 하남",
+      "status": "on",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "on",
+          "nox": 4.24,
+          "std": "21.3"
+        }
+      ]
+    },
+    {
+      "name": "DS파워",
+      "status": "partial",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "on",
+          "nox": 3.88,
+          "std": "13"
+        },
+        {
+          "no": "2",
+          "state": "off",
+          "nox": null,
+          "std": "40"
+        }
+      ]
+    },
+    {
+      "name": "평택에너지앤파워(E1)",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "off",
+          "nox": null,
+          "std": "25"
+        },
+        {
+          "no": "2",
+          "state": "off",
+          "nox": null,
+          "std": "25"
+        },
+        {
+          "no": "3",
+          "state": "off",
+          "nox": null,
+          "std": "25"
+        }
+      ]
+    },
+    {
+      "name": "포천파워 1호기",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        },
+        {
+          "no": "2",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        }
+      ]
+    },
+    {
+      "name": "포천파워 2호기",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "3",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        },
+        {
+          "no": "4",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        }
+      ]
+    },
+    {
+      "name": "포천민자발전",
+      "status": "partial",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "on",
+          "nox": 4.18,
+          "std": "17"
+        },
+        {
+          "no": "2",
+          "state": "on",
+          "nox": 3.97,
+          "std": "17"
+        },
+        {
+          "no": "3",
+          "state": "off",
+          "nox": null,
+          "std": "34"
+        }
+      ]
+    },
+    {
+      "name": "동두천드림파워 1호기",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        },
+        {
+          "no": "2",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        }
+      ]
+    },
+    {
+      "name": "동두천드림파워 2호기",
+      "status": "off",
+      "stacks": [
+        {
+          "no": "3",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        },
+        {
+          "no": "4",
+          "state": "off",
+          "nox": null,
+          "std": "21.3"
+        }
+      ]
+    },
+    {
+      "name": "통영에코파워",
+      "status": "nodata",
+      "stacks": [
+        {
+          "no": "1",
+          "state": "nodata",
+          "nox": null,
+          "std": "7"
+        },
+        {
+          "no": "2",
+          "state": "nodata",
+          "nox": null,
+          "std": "7"
+        }
+      ]
+    },
+    {
+      "name": "울산GPS(SK가스)",
+      "status": "partial",
+      "stacks": [
+        {
+          "no": "6",
+          "state": "idle",
+          "nox": 0.0,
+          "std": "10"
+        },
+        {
+          "no": "7",
+          "state": "on",
+          "nox": 1.69,
+          "std": "10"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}
