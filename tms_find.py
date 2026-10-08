@@ -11,9 +11,9 @@ URL = "https://apis.data.go.kr/B552584/cleansys/rltmMesureResult"
 
 # 화면에 쓸 이름 -> TMS에서 검색해 볼 단어들
 SEARCH = {
-    "청라에너지": ["청라에너지", "청라"],
-    "SK E&S 위례": ["나래에너지", "위례"],
-     }
+    "GS E&R 반월": ["지에스이앤알", "GS이앤알", "E&R", "반월", "지에스"],
+    "통영에코파워": ["통영"],
+}
 
 
 def call(word):
