@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-08 12:25",
+ "updated_at": "2026-10-08 13:25",
  "latest": {
   "time": "2026-10-08 10:55",
   "values": {
@@ -3694,6 +3694,6 @@
   "fuelPwr2": 183.013
  },
  "errors": [
-  "<urlopen error timed out>"
+  "발전원별 발전량 수집 실패 (URLError) <urlopen error timed out>"
  ]
 }
