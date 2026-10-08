@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-08 11:24",
+ "updated_at": "2026-10-08 12:25",
  "latest": {
   "time": "2026-10-08 10:55",
   "values": {
@@ -3693,5 +3693,7 @@
   "fuelPwr1": 222.561,
   "fuelPwr2": 183.013
  },
- "errors": []
+ "errors": [
+  "<urlopen error timed out>"
+ ]
 }
