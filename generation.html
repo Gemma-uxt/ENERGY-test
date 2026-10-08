@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>발전량 확인 (TMS)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 :root{--navy:#1b3358;--ink:#1a2230;--mut:#66758a;--line:#cfd8e4;--bg:#f4f7fb;--on:#1f8a4c;color-scheme:light}
 *{box-sizing:border-box}
@@ -26,12 +27,35 @@ th{background:#eef2f7;color:var(--navy);line-height:1.3}
 th small{display:block;font-size:12px;font-weight:normal;color:var(--mut)}
 td.grp{background:#f6f8fb;font-weight:600;color:var(--navy)}
 td.nm{white-space:nowrap}
+td.clk{cursor:pointer;color:var(--navy);text-decoration:underline dotted;text-underline-offset:3px}
+td.clk:hover{background:#eaf2ff}
 .dot{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle}
 .dot.on{background:var(--on)}
 .dot.off{border:2px solid #c4ccd8}
 .mut{color:#a3adbb}
 .note{margin:12px 2px 0;font-size:12.5px;color:var(--mut)}
 .err{margin-top:14px;padding:10px 14px;background:#fff4e5;border:1px solid #f0cf9b;border-radius:6px;font-size:13px;color:#7a4a05}
+
+/* 그래프 창 */
+.modal{position:fixed;inset:0;background:rgba(15,25,40,.45);display:none;align-items:center;justify-content:center;padding:20px;z-index:10}
+.modal.show{display:flex}
+.panel{background:#fff;border-radius:10px;width:100%;max-width:760px;max-height:92vh;overflow:auto;padding:20px 22px}
+.ptop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ptop h3{margin:0;font-size:19px;color:var(--navy)}
+.x{border:0;background:#eef2f7;border-radius:6px;width:34px;height:34px;font-size:18px;cursor:pointer}
+.tabs{display:flex;gap:8px;margin:14px 0 10px}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:13.5px}
+.tabs button.act{background:var(--navy);color:#fff;border-color:var(--navy)}
+.sum{font-size:15px;margin:4px 0 10px}
+.sum b{font-size:22px;color:var(--on)}
+.tl{display:grid;grid-template-columns:repeat(48,1fr);gap:1px;height:36px}
+.tl i{background:#dfe5ee;border-radius:2px}
+.tl i.on{background:var(--on)}
+.tl i.na{background:repeating-linear-gradient(45deg,#f4f6f9 0 3px,#e3e8ef 3px 6px)}
+.tlx{display:flex;justify-content:space-between;font-size:11px;color:var(--mut);margin-top:3px}
+.lg{font-size:12px;color:var(--mut);margin:8px 0 18px}
+.lg i{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:-1px;margin:0 4px 0 10px}
+.ptitle{font-size:14px;font-weight:600;margin:0 0 6px;color:var(--navy)}
 </style>
 </head>
 <body>
@@ -57,10 +81,25 @@ td.nm{white-space:nowrap}
     </tr></thead>
     <tbody id="body"></tbody>
   </table></div>
-  <p class="note">● 가동 &nbsp; ○ 정지 &nbsp; - 자료 없음 &nbsp;|&nbsp; 한국환경공단 굴뚝자동측정기기(TMS) 측정값으로 가동 여부를 추정한 결과입니다.
+  <p class="note">● 가동 &nbsp; ○ 정지 &nbsp; - 자료 없음 &nbsp;|&nbsp; 발전시간 숫자를 누르면 시간대별 그래프가 열립니다.<br>
+  한국환경공단 굴뚝자동측정기기(TMS) 측정값으로 가동 여부를 추정한 결과입니다.
   발전시간은 30분마다 확인한 가동 상태를 0.5시간(30분) 단위로 합산한 추정값으로, 실제와 다를 수 있습니다.</p>
   <div id="err"></div>
 </main>
+
+<div class="modal" id="modal">
+  <div class="panel">
+    <div class="ptop"><h3 id="mTitle"></h3><button class="x" onclick="closeChart()">✕</button></div>
+    <div class="tabs"><button id="bY" onclick="draw(dayBack(1))">전일</button><button id="bT" onclick="draw(dayBack(0))">금일</button></div>
+    <p class="sum" id="mSum"></p>
+    <div class="tl" id="tl"></div>
+    <div class="tlx"><span>0시</span><span>3</span><span>6</span><span>9</span><span>12</span><span>15</span><span>18</span><span>21</span><span>24시</span></div>
+    <div class="lg"><i style="background:var(--on);margin-left:0"></i>가동<i style="background:#dfe5ee"></i>정지<i style="background:repeating-linear-gradient(45deg,#f4f6f9 0 3px,#e3e8ef 3px 6px)"></i>미측정·기록 없음</div>
+    <p class="ptitle">최근 7일 발전시간 <span style="font-weight:normal;color:var(--mut);font-size:12px">(막대를 누르면 그날로 이동)</span></p>
+    <canvas id="bar" height="120"></canvas>
+  </div>
+</div>
+
 <script>
 // 사업장 구조 (span = 그 칸이 옆으로 차지하는 칸 수, 기본 1)
 var TREE = [
@@ -109,7 +148,7 @@ var TREE = [
   {id:"울산GPS(SK가스)", label:"울산지피에스(SK가스)", cap:"1,227MW", fuel:"직도입"}
 ];
 
-var COLS = 4, byId = {};
+var COLS = 4, byId = {}, LIST = [], BASE = "";
 var DASH = '<span class="mut">-</span>';
 function hrs(v){ return v==null ? DASH : v+'시간'; }
 function dot(s){
@@ -117,7 +156,6 @@ function dot(s){
   if(s=="off") return '<span class="dot off" title="정지"></span>';
   return DASH;
 }
-// 칸 합치기: 묶음은 아래 줄 수만큼 세로로 합치고, 발전기 이름은 남은 칸을 가로로 채움
 function build(nodes, col){
   var out = [];
   nodes.forEach(function(n){
@@ -128,11 +166,12 @@ function build(nodes, col){
       out = out.concat(rows);
     } else {
       var u = byId[n.id] || {};
+      var i = LIST.push(n) - 1;
       out.push([
         '<td class="nm" colspan="'+(COLS-col)+'">'+(n.label||n.id)+'</td>',
         '<td>'+dot(u.status)+'</td>',
-        '<td>'+hrs(u.today_h)+'</td>',
-        '<td>'+hrs(u.yday_h)+'</td>',
+        '<td class="clk" onclick="openChart('+i+',0)">'+hrs(u.today_h)+'</td>',
+        '<td class="clk" onclick="openChart('+i+',1)">'+hrs(u.yday_h)+'</td>',
         '<td>'+(n.cap||DASH)+'</td>',
         '<td>'+(n.fuel||DASH)+'</td>'
       ]);
@@ -140,20 +179,79 @@ function build(nodes, col){
   });
   return out;
 }
+function pad(x){ return String(x).padStart(2,"0"); }
+function ymd(t){ return t.getFullYear()+"-"+pad(t.getMonth()+1)+"-"+pad(t.getDate()); }
+function dayBack(k){ var t=new Date(BASE.slice(0,10)+"T00:00:00"); t.setDate(t.getDate()-k); return ymd(t); }
 function md(s){ return s.slice(5,7)+"/"+s.slice(8,10); }
 
+// ---------- 그래프 창 ----------
+var HIST = null, CUR = null, BAR = null;
+function openChart(i, back){
+  var load = HIST ? Promise.resolve() :
+    fetch("tms_hours.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(h){ HIST = h; });
+  load.then(function(){
+    CUR = LIST[i];
+    document.getElementById("mTitle").textContent = CUR.label && CUR.label.indexOf(CUR.id)<0 && !/^\d|^배출구|^부천/.test(CUR.label) ? CUR.label : CUR.id;
+    document.getElementById("modal").classList.add("show");
+    draw(dayBack(back));
+  }).catch(function(){ alert("tms_hours.json을 불러오지 못했습니다."); });
+}
+function closeChart(){ document.getElementById("modal").classList.remove("show"); }
+document.getElementById("modal").addEventListener("click", function(e){ if(e.target.id=="modal") closeChart(); });
+document.addEventListener("keydown", function(e){ if(e.key=="Escape") closeChart(); });
+
+function hoursOf(day){
+  if(!HIST[day]) return null;
+  return (HIST[day][CUR.id] || []).length * 0.5;
+}
+function draw(day){
+  var has = !!HIST[day];
+  var slots = has ? (HIST[day][CUR.id] || []) : [];
+  var isToday = day == BASE.slice(0,10);
+  var last = isToday ? BASE.slice(11,13) + (BASE.slice(14,16) >= "30" ? ":30" : ":00") : "99";
+
+  // 타임라인 48칸
+  var html = "";
+  for(var k=0;k<48;k++){
+    var s = pad(Math.floor(k/2)) + (k%2 ? ":30" : ":00");
+    var cls = !has || s > last ? "na" : (slots.indexOf(s) >= 0 ? "on" : "");
+    var end = k%2 ? pad(Math.floor(k/2)+1)+":00" : pad(Math.floor(k/2))+":30";
+    html += '<i class="'+cls+'" title="'+s+'~'+end+(cls=="on"?" 가동":cls=="na"?" 기록 없음":" 정지")+'"></i>';
+  }
+  document.getElementById("tl").innerHTML = html;
+  document.getElementById("mSum").innerHTML = md(day)+(isToday?" (금일)":day==dayBack(1)?" (전일)":"")+
+    " 발전시간 " + (has ? "<b>"+hoursOf(day)+"</b>시간" : '<span class="mut">기록 없음</span>');
+  document.getElementById("bT").className = isToday ? "act" : "";
+  document.getElementById("bY").className = day==dayBack(1) ? "act" : "";
+
+  // 최근 7일 막대
+  var days = [6,5,4,3,2,1,0].map(dayBack);
+  if(BAR) BAR.destroy();
+  BAR = new Chart(document.getElementById("bar"), {
+    type:"bar",
+    data:{labels:days.map(md), datasets:[{
+      label:"발전시간", data:days.map(hoursOf),
+      backgroundColor:days.map(function(d){ return d==day ? "#1b3358" : "#9fb0c8"; })
+    }]},
+    options:{
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){ return c.raw==null?"기록 없음":c.raw+"시간"; }}}},
+      scales:{y:{min:0,max:24,ticks:{stepSize:6},title:{display:true,text:"시간"}}},
+      onClick:function(e, el){ if(el.length) draw(days[el[0].index]); }
+    }
+  });
+}
+
+// ---------- 표 ----------
 fetch("tms.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
   document.getElementById("sub").textContent =
     (d.measured_at ? "측정시각: "+d.measured_at+" | " : "") + "수집 "+d.updated_at;
   d.units.forEach(function(u){ byId[u.id] = u; });
 
-  // 열 제목 아래 기준 날짜·시간
-  var base = d.measured_at || d.updated_at;
-  var y = new Date(base.slice(0,10)+"T00:00:00"); y.setDate(y.getDate()-1);
-  var yStr = String(y.getMonth()+1).padStart(2,"0")+"/"+String(y.getDate()).padStart(2,"0");
-  document.getElementById("h1").textContent = "("+md(base)+" "+base.slice(11,16)+")";
-  document.getElementById("h2").textContent = "("+md(base)+" 00:00~"+base.slice(11,16)+")";
-  document.getElementById("h3").textContent = "("+yStr+")";
+  BASE = d.measured_at || d.updated_at;
+  document.getElementById("h1").textContent = "("+md(BASE)+" "+BASE.slice(11,16)+")";
+  document.getElementById("h2").textContent = "("+md(BASE)+" 00:00~"+BASE.slice(11,16)+")";
+  document.getElementById("h3").textContent = "("+md(dayBack(1))+")";
 
   var n = {on:0, off:0, etc:0};
   d.units.forEach(function(u){ if(u.status in n) n[u.status]++; else n.etc++; });
