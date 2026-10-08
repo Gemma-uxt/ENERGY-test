@@ -38,15 +38,9 @@ def num(v):
     except (TypeError, ValueError):
         return None
 
-
 def demand_of(it):
-    # 수요예측 칸 이름이 확실하지 않아 비슷한 이름을 찾음
-    for k, v in it.items():
-        if any(w in k.lower() for w in ("demand", "jlfd", "load", "fcst")):
-            if num(v) is not None:
-                return num(v)
-    return None
-
+    # mlfd = 육지 수요예측(MW), jlfd = 제주, slfd = 합계
+    return num(it.get("mlfd"))
 
 def summarize(day):
     items = call(day)
