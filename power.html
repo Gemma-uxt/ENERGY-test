@@ -173,9 +173,10 @@ fetch("power_mix.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; retur
             backgroundColor:FCOL[n]+"cc", borderColor:FCOL[n], borderWidth:1,
             fill:true, pointRadius:0, tension:.3, stack:"mix"};
   });
-  ds.push({label:"순부하", data:pts.map(function(p){ return p.v["순부하"] ?? null; }),
-           borderColor:"#d64545", backgroundColor:"#d64545", borderWidth:2.5, borderDash:[6,4],
-           fill:false, pointRadius:0, tension:.3, stack:"nl"});
+   ds.push({label:"순부하", data:pts.map(function(p){ return p.v["순부하"] ?? null; }),
+           borderColor:"#e01e1e", backgroundColor:"#e01e1e", borderWidth:4,
+           fill:false, pointRadius:0, pointHoverRadius:5, tension:.3,
+           stack:"nl", order:-1});
   new Chart(document.getElementById("mix24"), {type:"line",
     data:{labels:labels, datasets:ds},
     options:{interaction:{mode:"index", intersect:false},
