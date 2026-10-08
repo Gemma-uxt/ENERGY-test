@@ -1,8 +1,10 @@
 """TMS 굴뚝 측정값으로 발전기 가동 상태·발전시간 수집
 -> tms.json (화면용), tms_hours.json (가동한 시간 기록)
+- 접속이 안 되면 직전 상태를 그대로 두고 '수집 지연'으로 표시
 """
 import json
 import os
+import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -14,6 +16,7 @@ NOW = datetime.now(timezone(timedelta(hours=9)))
 TODAY = NOW.strftime("%Y-%m-%d")
 YDAY = (NOW - timedelta(days=1)).strftime("%Y-%m-%d")
 HOURS_FILE = Path("tms_hours.json")
+TMS_FILE = Path("tms.json")
 
 # (id, 검색어 목록, TMS 등록명, 배출구 번호들)
 #  - 등록명이 "글자"면 이름이 정확히 같은 것만
@@ -46,15 +49,30 @@ UNITS = [
     ("울산GPS(SK가스)", ["지피에스"], "울산 지피에스 주식회사", ["6", "7"]),
 ]
 
+DOWN = False   # 한 번 접속이 끊기면 이번 실행에서는 더 시도하지 않음
+
 
 def call(word):
+    global DOWN
+    if DOWN:
+        raise ConnectionError("앞선 요청 접속 실패로 건너뜀")
     q = urllib.parse.urlencode({
         "serviceKey": KEY, "factManageNm": word,
         "type": "json", "pageNo": 1, "numOfRows": 100,
     })
-    req = urllib.request.Request(URL + "?" + q, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read().decode("utf-8"))
+    last = None
+    for attempt in range(2):          # 실패하면 10초 쉬고 한 번 더
+        try:
+            req = urllib.request.Request(URL + "?" + q, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=40) as r:
+                text = r.read().decode("utf-8")
+        except Exception as e:
+            last = e
+            time.sleep(10)
+            continue
+        return json.loads(text)       # 접속은 됐는데 JSON이 아니면 '진짜 오류'로 처리
+    DOWN = True
+    raise ConnectionError(str(last))
 
 
 def find_items(obj, out):
@@ -90,19 +108,23 @@ def stack_state(value):
     return "on" if x >= 1 else "idle"
 
 
-def main():
-    cache, errors, units, times = {}, [], [], []
-
-    # 지난 기록 불러오기
-    hist = {}
-    if HOURS_FILE.exists():
+def load(path):
+    if path.exists():
         try:
-            hist = json.loads(HOURS_FILE.read_text(encoding="utf-8"))
+            return json.loads(path.read_text(encoding="utf-8"))
         except Exception:
-            hist = {}
+            pass
+    return {}
+
+
+def main():
+    cache, errors, units, times, delayed = {}, [], [], [], []
+    hist = load(HOURS_FILE)                 # 지난 가동 기록
+    old = load(TMS_FILE)                    # 직전 화면 상태
+    old_units = {u.get("id"): u for u in old.get("units", [])}
 
     for uid, words, rule, stacks in UNITS:
-        items = []
+        items, failed = [], False
         for w in words:
             if w not in cache:
                 try:
@@ -110,10 +132,22 @@ def main():
                     find_items(call(w), got)
                     cache[w] = got
                     print(f"[{w}] {len(got)}건")
+                except ConnectionError:
+                    cache[w] = None             # 접속 실패 표시
                 except Exception as e:
                     cache[w] = []
                     errors.append(f"{uid}: {e}")
-            items += cache[w]
+            if cache[w] is None:
+                failed = True
+            else:
+                items += cache[w]
+
+        # 접속 실패 → 직전 상태 유지
+        if failed:
+            prev = old_units.get(uid, {})
+            units.append({"id": uid, "status": prev.get("status", "nodata"), "stale": True})
+            delayed.append(uid)
+            continue
 
         mine = [it for it in items if match(str(it.get("fact_manage_nm", "")), rule)]
         if not items:
@@ -147,9 +181,10 @@ def main():
             lst = hist.setdefault(day, {}).setdefault(uid, [])
             if slot not in lst:
                 lst.append(slot)
-        hist.setdefault(TODAY, {})
 
         units.append({"id": uid, "status": status})
+
+    hist.setdefault(TODAY, {})
 
     # 발전시간 계산
     def hours(day, uid):
@@ -166,15 +201,21 @@ def main():
         del hist[d]
     HOURS_FILE.write_text(json.dumps(hist, ensure_ascii=False, indent=1), encoding="utf-8")
 
+    measured = max(times) if times else old.get("measured_at")
+    if delayed:
+        when = (measured or "")[11:16] or "직전"
+        errors.insert(0, f"TMS 수집 지연: 공공데이터포털 연결이 불안정해 {len(delayed)}개 발전기는 "
+                         f"직전 측정값({when})을 표시 중입니다. 연결되면 자동으로 갱신됩니다.")
+
     result = {
         "updated_at": NOW.strftime("%Y-%m-%d %H:%M"),
-        "measured_at": max(times) if times else None,
+        "measured_at": measured,
+        "delayed": bool(delayed),
         "units": units,
         "errors": errors,
     }
-    with open("tms.json", "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
-    print("저장 완료. 실패:", errors or "없음")
+    TMS_FILE.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    print("저장 완료. 지연:", len(delayed), "개 / 기타 오류:", len(errors) - (1 if delayed else 0))
 
 
 if __name__ == "__main__":
