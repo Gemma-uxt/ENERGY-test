@@ -1,39 +1,49 @@
-"""TMS 굴뚝 측정값으로 발전기 가동 상태 수집 -> tms.json
-- 한국환경공단 굴뚝자동측정기기 측정결과 (DATA_GO_KR_KEY)
-- 가동 판단: '가동중지' 표시 -> 정지 / NOx 1 미만 -> 정지 추정 / 그 외 -> 가동
+"""TMS 굴뚝 측정값으로 발전기 가동 상태·발전시간 수집
+-> tms.json (화면용), tms_hours.json (가동한 시간 기록)
 """
 import json
 import os
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 KEY = os.environ.get("DATA_GO_KR_KEY", "").strip()
 URL = "https://apis.data.go.kr/B552584/cleansys/rltmMesureResult"
 NOW = datetime.now(timezone(timedelta(hours=9)))
+TODAY = NOW.strftime("%Y-%m-%d")
+YDAY = (NOW - timedelta(days=1)).strftime("%Y-%m-%d")
+HOURS_FILE = Path("tms_hours.json")
 
-# (화면 이름, 검색어, TMS 등록명, 배출구 번호들)
+# (id, 검색어 목록, TMS 등록명, 배출구 번호들)
+#  - 등록명이 "글자"면 이름이 정확히 같은 것만
+#  - 등록명이 ["단어", ...]면 그 단어가 모두 들어간 이름
 UNITS = [
-    ("에스파워", "에스파워", "㈜에스파워", ["1", "2"]),
-    ("삼천리", "삼천리", "㈜삼천리", ["1", "2"]),
-    ("안산도시개발", "안산도시개발", "안산도시개발㈜", ["2"]),
-    ("GS파워 안양 1호기", "GS파워", "GS파워㈜안양열병합발전처", ["7"]),
-    ("GS파워 안양 2호기", "GS파워", "GS파워㈜안양열병합발전처", ["8"]),
-    ("GS파워 부천", "GS파워", "GS파워㈜부천열병합발전처", ["1", "2", "3"]),
-    ("청라에너지", None, None, []),
-    ("인천종합에너지", "인천종합에너지", "인천종합에너지㈜", ["1", "2"]),
-    ("위드인천에너지", "위드인천", "위드인천에너지(주)", ["1"]),
-    ("SK E&S 위례", "나래에너지", "나래에너지서비스㈜", ["1"]),
-    ("SK E&S 하남", "나래에너지", "나래에너지서비스㈜하남사업소", ["1"]),
-    ("DS파워", "디에스파워", "디에스파워㈜", ["1", "2"]),
-    ("평택에너지앤파워(E1)", "평택에너지", "평택에너지앤파워(주)", ["1", "2", "3"]),
-    ("포천파워 1호기", "포천파워", "포천파워㈜", ["1", "2"]),
-    ("포천파워 2호기", "포천파워", "포천파워㈜", ["3", "4"]),
-    ("포천민자발전", "포천민자", "포천민자발전㈜", ["1", "2", "3"]),
-    ("동두천드림파워 1호기", "동두천", "동두천드림파워㈜", ["1", "2"]),
-    ("동두천드림파워 2호기", "동두천", "동두천드림파워㈜", ["3", "4"]),
-    ("통영에코파워", "통영에코", "통영에코파워(주)", ["1", "2"]),
-    ("울산GPS(SK가스)", "지피에스", "울산 지피에스 주식회사", ["6", "7"]),
+    ("에스파워", ["에스파워"], "㈜에스파워", ["1", "2"]),
+    ("광명사업단", ["삼천리"], "㈜삼천리", ["1", "2"]),
+    ("안산도시개발", ["안산도시개발"], "안산도시개발㈜", ["2"]),
+    ("GS파워 안양 1호기", ["GS파워"], "GS파워㈜안양열병합발전처", ["7"]),
+    ("GS파워 안양 2호기", ["GS파워"], "GS파워㈜안양열병합발전처", ["8"]),
+    ("GS파워 부천", ["GS파워"], "GS파워㈜부천열병합발전처", ["1", "2", "3"]),
+    ("청라에너지", ["청라"], "청라자원환경센터", ["1", "2"]),
+    ("인천종합에너지", ["인천종합에너지"], "인천종합에너지㈜", ["1", "2"]),
+    ("위드인천에너지", ["위드인천"], "위드인천에너지(주)", ["1"]),
+    ("GS E&R 반월 배출구1", ["이앤알"], ["반월"], ["1"]),
+    ("GS E&R 반월 배출구2", ["이앤알"], ["반월"], ["2"]),
+    ("GS E&R 반월 배출구3", ["이앤알"], ["반월"], ["3"]),
+    ("GS E&R 반월 배출구4", ["이앤알"], ["반월"], ["4"]),
+    ("GS E&R 반월 배출구11", ["이앤알"], ["반월"], ["11"]),
+    ("위례열병합", ["나래에너지"], "나래에너지서비스㈜", ["1"]),
+    ("하남열병합", ["나래에너지"], "나래에너지서비스㈜하남사업소", ["1"]),
+    ("DS파워", ["디에스파워"], "디에스파워㈜", ["1", "2"]),
+    ("평택에너지앤파워(E1)", ["평택에너지"], "평택에너지앤파워(주)", ["1", "2", "3"]),
+    ("포천파워 1호기", ["포천파워"], "포천파워㈜", ["1", "2"]),
+    ("포천파워 2호기", ["포천파워"], "포천파워㈜", ["3", "4"]),
+    ("포천민자발전", ["포천민자"], "포천민자발전㈜", ["1", "2", "3"]),
+    ("동두천드림파워 1호기", ["동두천"], "동두천드림파워㈜", ["1", "2"]),
+    ("동두천드림파워 2호기", ["동두천"], "동두천드림파워㈜", ["3", "4"]),
+    ("통영에코파워", ["통영에코"], "통영에코파워(주)", ["1", "2"]),
+    ("울산GPS(SK가스)", ["지피에스"], "울산 지피에스 주식회사", ["6", "7"]),
 ]
 
 
@@ -59,65 +69,97 @@ def find_items(obj, out):
             find_items(v, out)
 
 
+def match(name, rule):
+    if isinstance(rule, str):
+        return name == rule
+    return all(w in name for w in rule)
+
+
 def stack_state(value):
     """굴뚝 하나의 상태: on(가동) / off(가동중지) / idle(정지 추정) / nodata"""
     if value is None:
-        return "nodata", None
+        return "nodata"
     s = str(value)
     if "가동중지" in s:
-        return "off", None
+        return "off"
     try:
         x = float(s)
     except ValueError:
-        return "nodata", None
-    return ("on" if x >= 1 else "idle"), x
+        return "nodata"
+    return "on" if x >= 1 else "idle"
 
 
 def main():
     cache, errors, units, times = {}, [], [], []
 
-    for name, word, fact, stacks in UNITS:
-        if not word:
-            units.append({"name": name, "status": "hidden", "stacks": []})
-            continue
+    # 지난 기록 불러오기
+    hist = {}
+    if HOURS_FILE.exists():
+        try:
+            hist = json.loads(HOURS_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            hist = {}
 
-        # 같은 검색어는 한 번만 호출
-        if word not in cache:
-            try:
-                items = []
-                find_items(call(word), items)
-                cache[word] = items
-                print(f"[{word}] {len(items)}건")
-            except Exception as e:
-                cache[word] = []
-                errors.append(f"{name}: {e}")
-                print(f"[경고] {word} 검색 실패: {e}")
+    for uid, words, rule, stacks in UNITS:
+        items = []
+        for w in words:
+            if w not in cache:
+                try:
+                    got = []
+                    find_items(call(w), got)
+                    cache[w] = got
+                    print(f"[{w}] {len(got)}건")
+                except Exception as e:
+                    cache[w] = []
+                    errors.append(f"{uid}: {e}")
+            items += cache[w]
 
-        # 등록명이 정확히 같은 것만 (예: '에스파워' 검색에 섞인 '디에스파워' 제외)
-        found = {str(it.get("stack_code")): it for it in cache[word]
-                 if it.get("fact_manage_nm") == fact}
+        mine = [it for it in items if match(str(it.get("fact_manage_nm", "")), rule)]
+        if not mine and items:
+            names = sorted({str(it.get("fact_manage_nm")) for it in items})
+            errors.append(f"{uid}: 등록명 못 찾음 (검색 결과: {', '.join(names)})")
+        found = {str(it.get("stack_code")): it for it in mine}
 
-        rows = []
+        states, unit_dt = [], None
         for no in stacks:
             it = found.get(no, {})
-            state, nox = stack_state(it.get("nox_mesure_value"))
-            if it.get("mesure_dt"):
-                times.append(it["mesure_dt"])
-            rows.append({
-                "no": no, "state": state, "nox": nox,
-                "std": it.get("nox_exhst_perm_stdr_value"),
-            })
+            states.append(stack_state(it.get("nox_mesure_value")))
+            dt = it.get("mesure_dt")
+            if dt:
+                times.append(dt)
+                unit_dt = max(unit_dt or dt, dt)
 
-        on = sum(r["state"] == "on" for r in rows)
-        if on == len(rows):
+        if "on" in states:
             status = "on"
-        elif on > 0:
-            status = "partial"
-        elif all(r["state"] in ("off", "idle") for r in rows):
+        elif states and all(s in ("off", "idle") for s in states):
             status = "off"
         else:
             status = "nodata"
-        units.append({"name": name, "status": status, "stacks": rows})
+
+        # 가동 중이면 그 '시간대'를 기록 (같은 시간은 한 번만)
+        if status == "on" and unit_dt:
+            day, hour = unit_dt[:10], unit_dt[11:13]
+            lst = hist.setdefault(day, {}).setdefault(uid, [])
+            if hour not in lst:
+                lst.append(hour)
+        hist.setdefault(TODAY, {})
+
+        units.append({"id": uid, "status": status})
+
+    # 발전시간 계산
+    def hours(day, uid):
+        if day not in hist:
+            return None
+        return len(hist[day].get(uid, []))
+
+    for u in units:
+        u["today_h"] = hours(TODAY, u["id"])
+        u["yday_h"] = hours(YDAY, u["id"])
+
+    # 최근 7일만 보관
+    for d in sorted(hist)[:-7]:
+        del hist[d]
+    HOURS_FILE.write_text(json.dumps(hist, ensure_ascii=False, indent=1), encoding="utf-8")
 
     result = {
         "updated_at": NOW.strftime("%Y-%m-%d %H:%M"),
