@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-09 00:23",
-  "measured_at": "2026-10-08 23:00",
+  "updated_at": "2026-10-09 00:52",
+  "measured_at": "2026-10-08 23:30",
   "delayed": false,
   "units": [
     {
       "id": "에스파워",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 14.5
+      "yday_h": 15.0
     },
     {
       "id": "광명사업단",
@@ -31,7 +31,7 @@
       "id": "GS파워 안양 2호기",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 14.0
+      "yday_h": 14.5
     },
     {
       "id": "GS파워 부천",
@@ -43,7 +43,7 @@
       "id": "청라에너지",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 14.5
+      "yday_h": 15.0
     },
     {
       "id": "인천종합에너지",
@@ -61,13 +61,13 @@
       "id": "GS E&R 반월 배출구1",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 13.0
+      "yday_h": 13.5
     },
     {
       "id": "GS E&R 반월 배출구2",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 13.0
+      "yday_h": 13.5
     },
     {
       "id": "GS E&R 반월 배출구3",
@@ -97,13 +97,13 @@
       "id": "하남열병합",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 14.5
+      "yday_h": 15.0
     },
     {
       "id": "DS파워",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 14.5
+      "yday_h": 15.0
     },
     {
       "id": "평택에너지앤파워(E1)",
@@ -115,7 +115,7 @@
       "id": "포천파워 1호기",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 11.0
+      "yday_h": 11.5
     },
     {
       "id": "포천파워 2호기",
@@ -127,13 +127,13 @@
       "id": "포천민자발전",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 9.5
+      "yday_h": 10.0
     },
     {
       "id": "동두천드림파워 1호기",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 10.5
+      "yday_h": 11.0
     },
     {
       "id": "동두천드림파워 2호기",
@@ -145,13 +145,13 @@
       "id": "통영에코파워",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 8.5
+      "yday_h": 9.0
     },
     {
       "id": "울산GPS(SK가스)",
-      "status": "off",
+      "status": "on",
       "today_h": 0.0,
-      "yday_h": 5.0
+      "yday_h": 5.5
     }
   ],
   "errors": []
