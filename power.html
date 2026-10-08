@@ -29,7 +29,11 @@ th{background:#eef2f7;color:var(--navy)}
 .up{color:#d64545}.down{color:#2f6fd6}.mut{color:#a3adbb}
 .note{margin:12px 2px 0;font-size:12.5px;color:var(--mut)}
 .err{margin-top:14px;padding:10px 14px;background:#fff4e5;border:1px solid #f0cf9b;border-radius:6px;font-size:13px;color:#7a4a05}
-@media(max-width:700px){.cards{grid-template-columns:repeat(2,1fr)}}
+.mix{display:grid;grid-template-columns:1fr 1.3fr;gap:14px;align-items:start}
+.tabs{display:flex;gap:8px;margin:0 0 10px}
+.tabs button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:13.5px}
+.tabs button.act{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media(max-width:700px){.mix{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -50,6 +54,22 @@ th{background:#eef2f7;color:var(--navy)}
     <thead><tr><th>시간</th><th>SMP (원/kWh)</th><th>전전일 SMP</th><th>증감</th><th>수요예측 (MW)</th></tr></thead>
     <tbody id="body"></tbody>
   </table></div>
+  <h2>발전원별 실시간 수급 구성 및 순부하</h2>
+  <p class="note" id="mixTime" style="margin:-4px 2px 10px"></p>
+  <div class="cards" id="mixCards"></div>
+  <div class="mix" style="margin-top:14px">
+    <div class="box"><canvas id="pie"></canvas></div>
+    <div class="wrap"><table>
+      <thead><tr><th>발전원</th><th>출력 (MW)</th><th>비중</th></tr></thead>
+      <tbody id="mixBody"></tbody>
+    </table></div>
+  </div>
+  <h2>주요 발전원 시간대별 출력 추이</h2>
+  <div class="tabs" id="trTabs"></div>
+  <div class="box"><canvas id="trend" height="120"></canvas></div>
+  <p class="note">출처: 한국전력거래소 발전원별 발전량(계통기준, 육지+제주) · 시간대별 값은 그 시간대 측정값의 평균 ·
+  순부하 = 총 발전 − 태양광 − 신재생 · 전력시장 밖 자가용 태양광은 포함되지 않습니다.</p>
+  <div id="mixErr"></div>
   <p class="note">출처: 한국전력거래소 계통한계가격 및 수요예측(하루전 발전계획용) · 평균은 24시간 단순평균 ·
   시간은 구간의 끝 시각 기준(1시 = 0:00~1:00) · 수요는 실적이 아닌 하루 전 예측값입니다.</p>
   <div id="err"></div>
@@ -91,6 +111,77 @@ fetch("power.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.
   document.getElementById("sub").textContent="";
   document.getElementById("body").innerHTML='<tr><td colspan="5">power.json이 없거나 비어 있습니다. Power Collect를 한 번 실행해 주세요.</td></tr>';
 });
+</script>
+  <script>
+var FUEL_ORDER = ["원자력","유연탄","국내탄","LNG","유류","신재생","태양광","수력","양수"];
+var FCOL = {"원자력":"#7b5ea7","유연탄":"#4d4d4d","국내탄":"#8c8c8c","LNG":"#2a9d8f","유류":"#b5651d",
+            "신재생":"#6cc04a","태양광":"#f4b400","수력":"#4a90d9","양수":"#9cc3ec"};
+var MIX = null, TREND = null;
+function mw(v){ return v==null ? '<span class="mut">-</span>' : Math.round(v).toLocaleString("ko-KR"); }
+function card(t,b,s){ return '<div class="card"><span>'+t+'</span><b>'+b+'</b><small>'+s+'</small></div>'; }
+
+fetch("power_mix.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(m){
+  MIX = m;
+  var L = m.latest; if(!L) throw 1;
+  var v = L.values, T = v["합계"] || 1;
+  function pct(x){ return ((x||0)/T*100).toFixed(1)+"%"; }
+  document.getElementById("mixTime").textContent = "기준시각: "+L.time+" · 단위 MW";
+
+  document.getElementById("mixCards").innerHTML =
+    card("총 발전", mw(v["합계"]), "MW") +
+    card("순부하", mw(v["순부하"]), "MW") +
+    card("LNG 비중", pct(v["LNG"]), mw(v["LNG"])+" MW") +
+    card("태양광 비중", pct(v["태양광"]), mw(v["태양광"])+" MW");
+
+  var names = FUEL_ORDER.filter(function(n){ return (v[n]||0) > 0; });
+  document.getElementById("mixBody").innerHTML = names.map(function(n){
+    return '<tr><td><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:'+FCOL[n]+';margin-right:6px"></span>'+n+
+           '</td><td>'+mw(v[n])+'</td><td>'+pct(v[n])+'</td></tr>';
+  }).join("") + '<tr><td><b>합계</b></td><td><b>'+mw(T)+'</b></td><td>100%</td></tr>';
+
+  new Chart(document.getElementById("pie"), {type:"doughnut",
+    data:{labels:names, datasets:[{data:names.map(function(n){ return v[n]; }), backgroundColor:names.map(function(n){ return FCOL[n]; })}]},
+    options:{plugins:{legend:{position:"bottom"}}}});
+
+  // 전일·금일 버튼
+  var today = m.updated_at.slice(0,10);
+  var days = Object.keys(m.days).sort().slice(-2);
+  document.getElementById("trTabs").innerHTML = days.map(function(d){
+    return '<button data-d="'+d+'">'+(d==today?"금일":"전일")+' ('+d.slice(5).replace("-","/")+')</button>';
+  }).join("");
+  document.querySelectorAll("#trTabs button").forEach(function(b){
+    b.addEventListener("click", function(){ drawTrend(b.dataset.d); });
+  });
+  var def = (days.length > 1 && Object.keys(m.days[days[0]]).length >= 20) ? days[0] : days[days.length-1];
+  drawTrend(def);
+
+  if(m.errors && m.errors.length)
+    document.getElementById("mixErr").innerHTML = '<div class="err">확인 필요: '+m.errors.join(" / ")+'</div>';
+}).catch(function(){
+  document.getElementById("mixTime").textContent = "power_mix.json이 아직 없습니다. Mix Collect를 한 번 실행해 주세요.";
+});
+
+function drawTrend(day){
+  var H = MIX.days[day] || {}, hrs = [];
+  for(var i=0;i<24;i++) hrs.push(String(i).padStart(2,"0"));
+  function s(k){ return hrs.map(function(h){ return H[h] ? H[h][k] : null; }); }
+  if(TREND) TREND.destroy();
+  TREND = new Chart(document.getElementById("trend"), {type:"line",
+    data:{labels:hrs.map(function(h){ return (+h)+"시"; }), datasets:[
+      {label:"LNG", data:s("LNG"), borderColor:FCOL["LNG"], backgroundColor:FCOL["LNG"], tension:.3},
+      {label:"석탄", data:s("석탄"), borderColor:"#4d4d4d", backgroundColor:"#4d4d4d", tension:.3},
+      {label:"태양광", data:s("태양광"), borderColor:FCOL["태양광"], backgroundColor:FCOL["태양광"], tension:.3},
+      {label:"순부하 (오른쪽 축)", data:s("순부하"), borderColor:"#1b3358", backgroundColor:"#1b3358",
+       borderDash:[6,4], pointRadius:0, tension:.3, yAxisID:"y2"}
+    ]},
+    options:{interaction:{mode:"index", intersect:false},
+      plugins:{legend:{position:"bottom"}},
+      scales:{y:{title:{display:true, text:"발전원 출력 (MW)"}},
+              y2:{position:"right", grid:{drawOnChartArea:false}, title:{display:true, text:"순부하 (MW)"}}}}});
+  document.querySelectorAll("#trTabs button").forEach(function(b){
+    b.className = b.dataset.d == day ? "act" : "";
+  });
+}
 </script>
 </body>
 </html>
