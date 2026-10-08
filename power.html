@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>전력시장 전일실적</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{--navy:#1b3358;--ink:#1a2230;--mut:#66758a;--line:#d9e1ec;--bg:#f4f7fb;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.5}
+header{background:var(--navy);color:#fff;padding:22px 5vw;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+header h1{margin:0;font-size:26px}
+header p{margin:4px 0 0;font-size:13px;color:#b9c6da}
+nav{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:10px 18px;border-radius:6px;background:#e8eef7;color:var(--navy);font-weight:600;font-size:14px;text-decoration:none}
+main{max-width:1000px;margin:0 auto;padding:28px 5vw 48px}
+h2{font-size:19px;margin:28px 0 12px;border-left:5px solid var(--navy);padding-left:10px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
+.card b{display:block;font-size:26px}
+.card span{font-size:13px;color:var(--mut)}
+.card small{display:block;font-size:12.5px;margin-top:2px}
+.box{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}
+th,td{padding:8px 10px;border:1px solid var(--line);text-align:center;font-size:14px;white-space:nowrap}
+th{background:#eef2f7;color:var(--navy)}
+.up{color:#d64545}.down{color:#2f6fd6}.mut{color:#a3adbb}
+.note{margin:12px 2px 0;font-size:12.5px;color:var(--mut)}
+.err{margin-top:14px;padding:10px 14px;background:#fff4e5;border:1px solid #f0cf9b;border-radius:6px;font-size:13px;color:#7a4a05}
+@media(max-width:700px){.cards{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>전력시장 전일실적</h1><p id="sub">불러오는 중…</p></div>
+  <nav>
+    <a class="btn" href="index.html">‹ 발표 자료</a>
+    <a class="btn" href="market.html">에너지 시장 주요정보 ›</a>
+    <a class="btn" href="generation.html">발전량 확인 ›</a>
+  </nav>
+</header>
+<main>
+  <div class="cards" id="cards"></div>
+  <h2>시간대별 SMP (육지)</h2>
+  <div class="box"><canvas id="chart" height="110"></canvas></div>
+  <h2>시간대별 상세</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>시간</th><th>SMP (원/kWh)</th><th>전전일 SMP</th><th>증감</th><th>수요예측 (MW)</th></tr></thead>
+    <tbody id="body"></tbody>
+  </table></div>
+  <p class="note">출처: 한국전력거래소 계통한계가격 및 수요예측(하루전 발전계획용) · 평균은 24시간 단순평균 ·
+  시간은 구간의 끝 시각 기준(1시 = 0:00~1:00) · 수요는 실적이 아닌 하루 전 예측값입니다.</p>
+  <div id="err"></div>
+</main>
+<script>
+function f(v,d){ return v==null ? '<span class="mut">-</span>' : Number(v).toLocaleString("ko-KR",{minimumFractionDigits:d,maximumFractionDigits:d}); }
+function diff(a,b){
+  if(a==null||b==null) return '<span class="mut">-</span>';
+  var x=Math.round((a-b)*100)/100;
+  if(x>0) return '<span class="up">▲ '+x.toFixed(2)+'</span>';
+  if(x<0) return '<span class="down">▼ '+Math.abs(x).toFixed(2)+'</span>';
+  return '0.00';
+}
+fetch("power.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
+  var y=d.yday, p=d.prev;
+  if(!y) throw 1;
+  document.getElementById("sub").textContent="기준일: "+y.date+" | 수집 "+d.updated_at;
+
+  document.getElementById("cards").innerHTML =
+    '<div class="card"><span>SMP 평균</span><b>'+f(y.avg,2)+'</b><small>'+(p?'전전일 대비 '+diff(y.avg,p.avg):'')+'</small></div>'+
+    '<div class="card"><span>SMP 최고</span><b>'+f(y.max,2)+'</b><small>'+y.max_h+'시</small></div>'+
+    '<div class="card"><span>SMP 최저</span><b>'+f(y.min,2)+'</b><small>'+y.min_h+'시</small></div>'+
+    '<div class="card"><span>최대 수요예측</span><b>'+f(y.demand_max,0)+'</b><small>MW</small></div>';
+
+  var prevBy={}; if(p) p.hours.forEach(function(x){ prevBy[x.h]=x.smp; });
+  document.getElementById("body").innerHTML = y.hours.map(function(x){
+    return '<tr><td>'+x.h+'시</td><td>'+f(x.smp,2)+'</td><td>'+f(prevBy[x.h],2)+'</td><td>'+diff(x.smp,prevBy[x.h])+'</td><td>'+f(x.demand,0)+'</td></tr>';
+  }).join("");
+
+  var sets=[{label:y.date,data:y.hours.map(function(x){return x.smp;}),borderColor:"#1b3358",backgroundColor:"#1b3358",tension:.3}];
+  if(p) sets.push({label:p.date,data:y.hours.map(function(x){return prevBy[x.h]??null;}),borderColor:"#9fb0c8",borderDash:[5,4],pointRadius:0,tension:.3});
+  new Chart(document.getElementById("chart"),{type:"line",
+    data:{labels:y.hours.map(function(x){return x.h+"시";}),datasets:sets},
+    options:{plugins:{legend:{position:"bottom"}},scales:{y:{title:{display:true,text:"원/kWh"}}}}});
+
+  if(d.errors && d.errors.length)
+    document.getElementById("err").innerHTML='<div class="err">확인 필요: '+d.errors.join(" / ")+'</div>';
+}).catch(function(){
+  document.getElementById("sub").textContent="";
+  document.getElementById("body").innerHTML='<tr><td colspan="5">power.json이 없거나 비어 있습니다. Power Collect를 한 번 실행해 주세요.</td></tr>';
+});
+</script>
+</body>
+</html>
