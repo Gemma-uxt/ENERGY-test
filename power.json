@@ -1,8 +1,9 @@
 {
-  "updated_at": "2026-10-08 11:18",
+  "updated_at": "2026-10-08 13:06",
   "yday": {
     "date": "2026-10-07",
     "avg": 108.68,
+    "wavg": 109.34,
     "max": 120.47,
     "max_h": 22,
     "min": 98.41,
@@ -131,19 +132,10 @@
       }
     ]
   },
-  "sample": {
-    "date": "20261007",
-    "jlfd": 597.0,
-    "slfd": 55271.0,
-    "hour": "01",
-    "areaName": "육지",
-    "smp": 106.07,
-    "rn": 1,
-    "mlfd": 54674.0
-  },
   "prev": {
     "date": "2026-10-06",
     "avg": 106.96,
+    "wavg": 107.81,
     "max": 119.13,
     "max_h": 18,
     "min": 91.34,
@@ -271,6 +263,102 @@
         "demand": 58380.0
       }
     ]
+  },
+  "week": [
+    {
+      "date": "2026-10-07",
+      "holiday": false,
+      "holiday_name": "",
+      "wavg": 109.34,
+      "max": 120.47,
+      "min": 98.41,
+      "cap": 96456.0,
+      "peak": 71028.0,
+      "peak_h": "19",
+      "reserve": 35.8
+    },
+    {
+      "date": "2026-10-06",
+      "holiday": false,
+      "holiday_name": "",
+      "wavg": 107.81,
+      "max": 119.13,
+      "min": 91.34,
+      "cap": 96621.0,
+      "peak": 70838.0,
+      "peak_h": "19",
+      "reserve": 36.4
+    },
+    {
+      "date": "2026-10-05",
+      "holiday": true,
+      "holiday_name": "대체공휴일(개천절)",
+      "wavg": 106.7,
+      "max": 110.42,
+      "min": 96.83,
+      "cap": 93500.0,
+      "peak": 64556.0,
+      "peak_h": "19",
+      "reserve": 44.8
+    },
+    {
+      "date": "2026-10-04",
+      "holiday": true,
+      "holiday_name": "",
+      "wavg": 104.33,
+      "max": 110.42,
+      "min": 89.08,
+      "cap": 91988.0,
+      "peak": 61713.0,
+      "peak_h": "19",
+      "reserve": 49.1
+    },
+    {
+      "date": "2026-10-03",
+      "holiday": true,
+      "holiday_name": "개천절",
+      "wavg": 107.03,
+      "max": 110.42,
+      "min": 96.66,
+      "cap": 93114.0,
+      "peak": 62349.0,
+      "peak_h": "20",
+      "reserve": 49.3
+    },
+    {
+      "date": "2026-10-02",
+      "holiday": false,
+      "holiday_name": "",
+      "wavg": 105.7,
+      "max": 110.46,
+      "min": 95.88,
+      "cap": 97902.0,
+      "peak": 69435.0,
+      "peak_h": "19",
+      "reserve": 41.0
+    },
+    {
+      "date": "2026-10-01",
+      "holiday": false,
+      "holiday_name": "",
+      "wavg": 109.15,
+      "max": 119.8,
+      "min": 98.28,
+      "cap": 96513.0,
+      "peak": 71992.0,
+      "peak_h": "19",
+      "reserve": 34.1
+    }
+  ],
+  "sample": {
+    "date": "20261007",
+    "jlfd": 597.0,
+    "slfd": 55271.0,
+    "hour": "01",
+    "areaName": "육지",
+    "smp": 106.07,
+    "rn": 1,
+    "mlfd": 54674.0
   },
   "errors": []
 }
