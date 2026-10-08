@@ -28,11 +28,11 @@ UNITS = [
     ("청라에너지", ["청라"], "청라자원환경센터", ["1", "2"]),
     ("인천종합에너지", ["인천종합에너지"], "인천종합에너지㈜", ["1", "2"]),
     ("위드인천에너지", ["위드인천"], "위드인천에너지(주)", ["1"]),
-    ("GS E&R 반월 배출구1", ["이앤알"], ["반월"], ["1"]),
-    ("GS E&R 반월 배출구2", ["이앤알"], ["반월"], ["2"]),
-    ("GS E&R 반월 배출구3", ["이앤알"], ["반월"], ["3"]),
-    ("GS E&R 반월 배출구4", ["이앤알"], ["반월"], ["4"]),
-    ("GS E&R 반월 배출구11", ["이앤알"], ["반월"], ["11"]),
+    ("GS E&R 반월 배출구1", ["지에스반월"], "㈜지에스반월열병합발전", ["1"]),
+    ("GS E&R 반월 배출구2", ["지에스반월"], "㈜지에스반월열병합발전", ["2"]),
+    ("GS E&R 반월 배출구3", ["지에스반월"], "㈜지에스반월열병합발전", ["3"]),
+    ("GS E&R 반월 배출구4", ["지에스반월"], "㈜지에스반월열병합발전", ["4"]),
+    ("GS E&R 반월 배출구11", ["지에스반월"], "㈜지에스반월열병합발전", ["11"]),
     ("위례열병합", ["나래에너지"], "나래에너지서비스㈜", ["1"]),
     ("하남열병합", ["나래에너지"], "나래에너지서비스㈜하남사업소", ["1"]),
     ("DS파워", ["디에스파워"], "디에스파워㈜", ["1", "2"]),
@@ -70,6 +70,7 @@ def find_items(obj, out):
 
 
 def match(name, rule):
+    name = name.strip()
     if isinstance(rule, str):
         return name == rule
     return all(w in name for w in rule)
@@ -115,7 +116,9 @@ def main():
             items += cache[w]
 
         mine = [it for it in items if match(str(it.get("fact_manage_nm", "")), rule)]
-        if not mine and items:
+        if not items:
+            errors.append(f"{uid}: 검색 결과 0건")
+        elif not mine:
             names = sorted({str(it.get("fact_manage_nm")) for it in items})
             errors.append(f"{uid}: 등록명 못 찾음 (검색 결과: {', '.join(names)})")
         found = {str(it.get("stack_code")): it for it in mine}
