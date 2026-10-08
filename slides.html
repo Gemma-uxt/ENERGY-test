@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>에너지 시장 모니터링 대시보드 구축 보고</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { background: #2b2f36; overflow: hidden; color: #1f2937;
+         font-family: "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; }
+  a { color: inherit; text-decoration: none; }
+
+  /* 16:9 무대 - 창 크기에 맞춰 자동 확대/축소 */
+  #stage { position: absolute; left: 50%; top: 50%; width: 1280px; height: 720px; }
+  .slide { position: absolute; inset: 0; background: #f4f7fb; display: none;
+           flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
+  .slide.on { display: flex; }
+
+  .head { background: #1e3a6e; color: #fff; padding: 26px 60px;
+          display: flex; align-items: baseline; gap: 18px; }
+  .head .no { font-size: 22px; font-weight: 800; color: #8fb3ff; }
+  .head h2 { font-size: 32px; font-weight: 800; }
+  .body { flex: 1; padding: 36px 60px 10px; display: flex; flex-direction: column; gap: 26px; }
+  .foot { padding: 0 60px 18px; font-size: 13px; color: #9aa3b2;
+          display: flex; justify-content: space-between; }
+
+  /* 0. 표지 */
+  .cover { background: #1e3a6e; color: #fff; justify-content: center; padding: 0 100px; }
+  .cover .tag { font-size: 18px; color: #8fb3ff; font-weight: 700; letter-spacing: 2px; }
+  .cover h1 { font-size: 60px; font-weight: 800; margin: 18px 0 16px; line-height: 1.25; }
+  .cover .sub { font-size: 24px; opacity: .85; }
+  .cover .bar { width: 90px; height: 6px; background: #4f8cff; margin: 40px 0 28px; border-radius: 3px; }
+  .cover .info { font-size: 18px; opacity: .7; }
+
+  /* 1. 목적과 도구 */
+  .goal { background: #fff; border-left: 8px solid #1e3a6e; border-radius: 10px;
+          padding: 22px 30px; font-size: 28px; font-weight: 800; color: #1e3a6e; }
+  .goal small { display: block; font-size: 16px; font-weight: 500; color: #6b7280; margin-top: 6px; }
+  .chips { display: flex; gap: 18px; }
+  .chip { flex: 1; background: #fff; border-radius: 10px; padding: 18px 22px; text-align: center; }
+  .chip b { display: block; font-size: 24px; color: #1e3a6e; margin-bottom: 4px; }
+  .chip span { font-size: 15px; color: #6b7280; }
+  .label { font-size: 16px; font-weight: 800; color: #6b7280; margin-bottom: -12px; }
+  .flow { display: flex; align-items: stretch; gap: 10px; }
+  .step { flex: 1; background: #e3ecfb; border-radius: 10px; padding: 18px 16px; text-align: center; }
+  .step b { display: block; font-size: 19px; color: #1e3a6e; margin-bottom: 6px; }
+  .step span { font-size: 14px; color: #4b5563; line-height: 1.5; }
+  .arrow { display: flex; align-items: center; font-size: 26px; color: #4f8cff; font-weight: 800; }
+  .note { font-size: 14px; color: #6b7280; text-align: right; margin-top: -12px; }
+
+  /* 2. 페이지 소개 */
+  .cards { display: flex; gap: 26px; flex: 1; padding-bottom: 10px; }
+  .card { flex: 1; background: #fff; border-radius: 14px; padding: 28px 28px 24px;
+          display: flex; flex-direction: column; border-top: 8px solid #1e3a6e;
+          box-shadow: 0 4px 14px rgba(30,58,110,.08); transition: transform .15s, box-shadow .15s; }
+  .card:hover { transform: translateY(-6px); box-shadow: 0 10px 24px rgba(30,58,110,.18); }
+  .card .num { font-size: 15px; font-weight: 800; color: #4f8cff; }
+  .card h3 { font-size: 27px; color: #1e3a6e; margin: 8px 0 18px; }
+  .card ul { list-style: none; flex: 1; }
+  .card li { font-size: 17px; padding: 9px 0; border-bottom: 1px solid #eef1f6; }
+  .card li::before { content: "·"; color: #4f8cff; font-weight: 800; margin-right: 8px; }
+  .card .cycle { font-size: 14px; color: #6b7280; margin: 16px 0 14px; }
+  .card .go { background: #1e3a6e; color: #fff; text-align: center; border-radius: 8px;
+              padding: 12px; font-size: 17px; font-weight: 700; }
+
+  /* 3. 문제와 해결, 마무리 */
+  .rows { display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; align-items: center; gap: 14px; }
+  .prob, .sol { flex: 1; border-radius: 10px; padding: 16px 22px; font-size: 18px; }
+  .prob { background: #fff; color: #4b5563; }
+  .prob b, .sol b { display: block; font-size: 13px; margin-bottom: 4px; letter-spacing: 1px; }
+  .prob b { color: #d9534f; }
+  .sol { background: #e3ecfb; color: #1e3a6e; font-weight: 700; }
+  .sol b { color: #4f8cff; }
+  .wrap { display: flex; gap: 18px; }
+  .box { flex: 1; background: #1e3a6e; color: #fff; border-radius: 12px; padding: 20px 26px; }
+  .box h4 { font-size: 16px; color: #8fb3ff; margin-bottom: 10px; }
+  .box p { font-size: 18px; line-height: 1.7; }
+
+  /* 이동 버튼 */
+  .nav { position: fixed; right: 18px; bottom: 14px; display: flex; gap: 8px; align-items: center;
+         color: #cfd6e3; font-size: 14px; }
+  .nav button { background: #3b4250; color: #fff; border: 0; border-radius: 6px;
+                padding: 7px 13px; font-size: 15px; cursor: pointer; }
+  .nav button:hover { background: #4f8cff; }
+
+  /* 인쇄(PDF 저장) 시 한 장씩 */
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    body { background: #fff; overflow: visible; }
+    #stage { position: static; transform: none !important; }
+    .slide { display: flex !important; position: relative; width: 1280px; height: 720px;
+             box-shadow: none; page-break-after: always; }
+    .nav { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 0. 표지 -->
+  <section class="slide cover">
+    <div class="tag">보고</div>
+    <h1>에너지 시장 모니터링<br>대시보드 구축</h1>
+    <div class="sub">공공데이터 자동 수집 기반 웹페이지 3종</div>
+    <div class="bar"></div>
+    <div class="info">2026. 10. &nbsp;|&nbsp; ○○팀 ○○○</div>
+  </section>
+
+  <!-- 1. 목적과 사용 도구 -->
+  <section class="slide">
+    <div class="head"><span class="no">01</span><h2>만든 목적과 사용 도구</h2></div>
+    <div class="body">
+      <div class="goal">흩어진 에너지 시장 정보를 한 화면에서, 매일 자동으로
+        <small>여러 사이트를 돌며 직접 확인하던 정보를 자동 수집해 웹페이지로 제공</small></div>
+      <div class="chips">
+        <div class="chip"><b>자동 수집</b><span>정해진 시각마다 사람 손 없이 갱신</span></div>
+        <div class="chip"><b>한 화면</b><span>시장 · 전력 · 발전기 정보 통합</span></div>
+        <div class="chip"><b>비용 0원</b><span>무료 도구와 공공데이터만 활용</span></div>
+      </div>
+      <div class="label">사용 도구와 작동 구조</div>
+      <div class="flow">
+        <div class="step"><b>공공데이터 API</b><span>한국전력거래소<br>한국환경공단(TMS) 등</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><b>GitHub Actions</b><span>정해진 시각에<br>자동 수집하는 로봇</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><b>GitHub 저장소</b><span>수집 데이터와<br>페이지 파일 보관</span></div>
+        <div class="arrow">→</div>
+        <div class="step"><b>GitHub Pages</b><span>웹페이지로 공개<br>(PC · 모바일)</span></div>
+      </div>
+      <div class="note">※ 코드 작성: AI 활용 (바이브 코딩)</div>
+    </div>
+    <div class="foot"><span>에너지 시장 모니터링 대시보드</span><span>1 / 3</span></div>
+  </section>
+
+  <!-- 2. 3개 페이지 소개 -->
+  <section class="slide">
+    <div class="head"><span class="no">02</span><h2>3개 페이지를 구성했습니다</h2></div>
+    <div class="body">
+      <div class="cards">
+        <a class="card" data-page="market.html" href="market.html" target="_blank">
+          <div class="num">PAGE 1</div>
+          <h3>에너지 시장<br>주요정보</h3>
+          <ul><li>환율</li><li>국제유가</li><li>JKM (LNG 현물가격)</li></ul>
+          <div class="cycle">갱신: 매일 자동</div>
+          <div class="go">페이지 열기 →</div>
+        </a>
+        <a class="card" data-page="power.html" href="power.html" target="_blank">
+          <div class="num">PAGE 2</div>
+          <h3>전력시장<br>전일실적</h3>
+          <ul><li>SMP · 최근 7일 실적</li><li>전력수급 (공급능력 · 예비율)</li><li>발전원별 24시간 수급 구성</li></ul>
+          <div class="cycle">갱신: 매일 + 매시간 자동</div>
+          <div class="go">페이지 열기 →</div>
+        </a>
+        <a class="card" data-page="generation.html" href="generation.html" target="_blank">
+          <div class="num">PAGE 3</div>
+          <h3>발전량<br>확인</h3>
+          <ul><li>주요 발전기 가동 상태</li><li>금일 · 전일 발전시간</li><li>30분 단위 가동 그래프</li></ul>
+          <div class="cycle">갱신: 15분마다 자동 (TMS 기반)</div>
+          <div class="go">페이지 열기 →</div>
+        </a>
+      </div>
+    </div>
+    <div class="foot"><span>에너지 시장 모니터링 대시보드</span><span>2 / 3</span></div>
+  </section>
+
+  <!-- 3. 겪은 문제와 해결, 마무리 -->
+  <section class="slide">
+    <div class="head"><span class="no">03</span><h2>겪은 문제와 해결, 마무리</h2></div>
+    <div class="body">
+      <div class="rows">
+        <div class="row">
+          <div class="prob"><b>문제</b>발전기별 발전량 정보 비공개</div>
+          <div class="arrow">→</div>
+          <div class="sol"><b>해결</b>굴뚝원격감시(TMS) 측정값으로 가동 여부 · 발전시간 추정</div>
+        </div>
+        <div class="row">
+          <div class="prob"><b>문제</b>공공데이터 서버 접속 불안정</div>
+          <div class="arrow">→</div>
+          <div class="sol"><b>해결</b>자동 재시도 + 직전 값 유지, '수집 지연'으로 표시</div>
+        </div>
+        <div class="row">
+          <div class="prob"><b>문제</b>수정 내용이 화면에 늦게 반영 (캐시)</div>
+          <div class="arrow">→</div>
+          <div class="sol"><b>해결</b>접속할 때마다 최신 데이터를 받아오도록 처리</div>
+        </div>
+      </div>
+      <div class="wrap">
+        <div class="box"><h4>성과</h4><p>반복 확인 업무 자동화<br>구축 · 운영 비용 없음</p></div>
+        <div class="box"><h4>향후 계획</h4><p>발전기별 실제 발전량 연계<br>대상 발전기 및 지표 확대</p></div>
+      </div>
+    </div>
+    <div class="foot"><span>에너지 시장 모니터링 대시보드</span><span>3 / 3</span></div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button onclick="go(cur-1)">◀</button>
+  <span id="pg"></span>
+  <button onclick="go(cur+1)">▶</button>
+  <button onclick="full()">전체화면</button>
+</div>
+
+<script>
+  var slides = document.querySelectorAll(".slide");
+  var stage = document.getElementById("stage");
+  var cur = parseInt(location.hash.slice(1)) || 0;
+
+  function go(n) {
+    cur = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach(function (s, i) { s.classList.toggle("on", i === cur); });
+    document.getElementById("pg").textContent = (cur + 1) + " / " + slides.length;
+    history.replaceState(null, "", "#" + cur);
+  }
+  function fit() {
+    var s = Math.min(innerWidth / 1280, innerHeight / 720) * 0.96;
+    stage.style.transform = "translate(-50%,-50%) scale(" + s + ")";
+  }
+  function full() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+
+  // 키보드 / 프레젠터(리모컨) 이동
+  document.addEventListener("keydown", function (e) {
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); go(cur + 1); }
+    if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); go(cur - 1); }
+    if (e.key === "f" || e.key === "F") full();
+  });
+
+  // 링크는 항상 최신 화면으로 열리게 (캐시 방지)
+  document.querySelectorAll("a[data-page]").forEach(function (a) {
+    a.href = a.dataset.page + "?v=" + Date.now();
+  });
+
+  addEventListener("resize", fit);
+  fit();
+  go(cur);
+</script>
+</body>
+</html>
