@@ -101,14 +101,6 @@ def main():
         except Exception:
             hist = {}
 
-    # 예전 기록("08")을 30분 단위("08:00", "08:30")로 변환
-    for day in hist.values():
-        for uid, lst in day.items():
-            new = []
-            for x in lst:
-                new += [x + ":00", x + ":30"] if len(x) == 2 else [x]
-            day[uid] = sorted(set(new))
-    
     for uid, words, rule, stacks in UNITS:
         items = []
         for w in words:
