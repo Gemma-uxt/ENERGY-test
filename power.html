@@ -196,8 +196,8 @@ fetch("power_mix.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; retur
   var def = (days.length > 1 && Object.keys(m.days[days[0]]).length >= 20) ? days[0] : days[days.length-1];
   drawTrend(def);
 
-  if(m.errors && m.errors.length)
-    document.getElementById("mixErr").innerHTML = '<div class="err">확인 필요: '+m.errors.join(" / ")+'</div>';
+  var errs = (m.errors || []).filter(function(e){ return e && String(e).trim(); });
+  if(errs.length) document.getElementById("mixErr").innerHTML = '<div class="err">확인 필요: '+errs.join(" / ")+'</div>';
 }).catch(function(){
   document.getElementById("mixTime").textContent = "power_mix.json이 아직 없습니다. Mix Collect를 한 번 실행해 주세요.";
 });
