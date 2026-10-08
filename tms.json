@@ -1,124 +1,124 @@
 {
-  "updated_at": "2026-10-08 10:52",
-  "measured_at": "2026-10-08 09:30",
+  "updated_at": "2026-10-08 11:20",
+  "measured_at": null,
   "units": [
     {
       "id": "에스파워",
-      "status": "on",
+      "status": "nodata",
       "today_h": 2.0,
       "yday_h": null
     },
     {
       "id": "광명사업단",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "안산도시개발",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "GS파워 안양 1호기",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "GS파워 안양 2호기",
-      "status": "on",
+      "status": "nodata",
       "today_h": 2.0,
       "yday_h": null
     },
     {
       "id": "GS파워 부천",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "청라에너지",
-      "status": "on",
+      "status": "nodata",
       "today_h": 2.0,
       "yday_h": null
     },
     {
       "id": "인천종합에너지",
-      "status": "on",
+      "status": "nodata",
       "today_h": 2.0,
       "yday_h": null
     },
     {
       "id": "위드인천에너지",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "GS E&R 반월 배출구1",
-      "status": "on",
+      "status": "nodata",
       "today_h": 1.0,
       "yday_h": null
     },
     {
       "id": "GS E&R 반월 배출구2",
-      "status": "on",
+      "status": "nodata",
       "today_h": 1.0,
       "yday_h": null
     },
     {
       "id": "GS E&R 반월 배출구3",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "GS E&R 반월 배출구4",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "GS E&R 반월 배출구11",
-      "status": "on",
+      "status": "nodata",
       "today_h": 1.0,
       "yday_h": null
     },
     {
       "id": "위례열병합",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "하남열병합",
-      "status": "on",
+      "status": "nodata",
       "today_h": 2.0,
       "yday_h": null
     },
     {
       "id": "DS파워",
-      "status": "on",
+      "status": "nodata",
       "today_h": 2.0,
       "yday_h": null
     },
     {
       "id": "평택에너지앤파워(E1)",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "포천파워 1호기",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "포천파워 2호기",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
@@ -130,13 +130,13 @@
     },
     {
       "id": "동두천드림파워 1호기",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
     {
       "id": "동두천드림파워 2호기",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": null
     },
@@ -153,5 +153,47 @@
       "yday_h": null
     }
   ],
-  "errors": []
+  "errors": [
+    "에스파워: <urlopen error timed out>",
+    "에스파워: 검색 결과 0건",
+    "광명사업단: <urlopen error timed out>",
+    "광명사업단: 검색 결과 0건",
+    "안산도시개발: <urlopen error timed out>",
+    "안산도시개발: 검색 결과 0건",
+    "GS파워 안양 1호기: <urlopen error timed out>",
+    "GS파워 안양 1호기: 검색 결과 0건",
+    "GS파워 안양 2호기: 검색 결과 0건",
+    "GS파워 부천: 검색 결과 0건",
+    "청라에너지: <urlopen error timed out>",
+    "청라에너지: 검색 결과 0건",
+    "인천종합에너지: <urlopen error timed out>",
+    "인천종합에너지: 검색 결과 0건",
+    "위드인천에너지: <urlopen error timed out>",
+    "위드인천에너지: 검색 결과 0건",
+    "GS E&R 반월 배출구1: <urlopen error timed out>",
+    "GS E&R 반월 배출구1: 검색 결과 0건",
+    "GS E&R 반월 배출구2: 검색 결과 0건",
+    "GS E&R 반월 배출구3: 검색 결과 0건",
+    "GS E&R 반월 배출구4: 검색 결과 0건",
+    "GS E&R 반월 배출구11: 검색 결과 0건",
+    "위례열병합: <urlopen error timed out>",
+    "위례열병합: 검색 결과 0건",
+    "하남열병합: 검색 결과 0건",
+    "DS파워: <urlopen error timed out>",
+    "DS파워: 검색 결과 0건",
+    "평택에너지앤파워(E1): <urlopen error timed out>",
+    "평택에너지앤파워(E1): 검색 결과 0건",
+    "포천파워 1호기: <urlopen error timed out>",
+    "포천파워 1호기: 검색 결과 0건",
+    "포천파워 2호기: 검색 결과 0건",
+    "포천민자발전: <urlopen error timed out>",
+    "포천민자발전: 검색 결과 0건",
+    "동두천드림파워 1호기: <urlopen error timed out>",
+    "동두천드림파워 1호기: 검색 결과 0건",
+    "동두천드림파워 2호기: 검색 결과 0건",
+    "통영에코파워: <urlopen error timed out>",
+    "통영에코파워: 검색 결과 0건",
+    "울산GPS(SK가스): <urlopen error timed out>",
+    "울산GPS(SK가스): 검색 결과 0건"
+  ]
 }
