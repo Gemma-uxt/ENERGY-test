@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>발전량 확인 (TMS)</title>
+<style>
+:root{--navy:#1b3358;--ink:#1a2230;--mut:#66758a;--line:#d9e1ec;--bg:#f4f7fb;--on:#1f8a4c;--part:#d98b00;--off:#8a96a8;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.5}
+header{background:var(--navy);color:#fff;padding:22px 5vw;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+header h1{margin:0;font-size:26px}
+header p{margin:4px 0 0;font-size:13px;color:#b9c6da}
+nav{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:10px 18px;border-radius:6px;background:#e8eef7;color:var(--navy);font-weight:600;font-size:14px;text-decoration:none}
+main{max-width:980px;margin:0 auto;padding:28px 5vw 48px}
+h2{font-size:19px;margin:0 0 12px;border-left:5px solid var(--navy);padding-left:10px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
+.card b{display:block;font-size:28px}
+.card span{font-size:13px;color:var(--mut)}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}
+th,td{padding:11px 12px;border:1px solid var(--line);text-align:center;font-size:15px}
+th{background:#eef2f7;color:var(--navy);font-size:14px}
+td.l{text-align:left;font-weight:600}
+.badge{display:inline-block;padding:3px 12px;border-radius:12px;color:#fff;font-size:13px;font-weight:700}
+.on{background:var(--on)}.partial{background:var(--part)}.off{background:var(--off)}
+.nodata,.hidden{background:#c4ccd8}
+.stk{display:inline-block;margin:2px 4px;padding:2px 8px;border-radius:4px;font-size:13px;background:#f1f4f8;font-variant-numeric:tabular-nums}
+.stk.on{background:#e3f4ea;color:var(--on)}
+.stk.idle,.stk.off{color:var(--off)}
+.note{margin:12px 2px 0;font-size:12.5px;color:var(--mut)}
+.err{margin-top:14px;padding:10px 14px;background:#fff4e5;border:1px solid #f0cf9b;border-radius:6px;font-size:13px;color:#7a4a05}
+@media(max-width:600px){.cards{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>발전량 확인 (TMS)</h1><p id="sub">불러오는 중…</p></div>
+  <nav>
+    <a class="btn" href="index.html">‹ 발표 자료</a>
+    <a class="btn" href="market.html">에너지 시장 주요정보 ›</a>
+    <a class="btn" href="power.html">전력시장 전일실적 ›</a>
+  </nav>
+</header>
+<main>
+  <div class="cards" id="cards"></div>
+  <h2>발전기별 가동 현황</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>발전기</th><th>상태</th><th>배출구별 NOx 측정값 (ppm)</th></tr></thead>
+    <tbody id="body"></tbody>
+  </table></div>
+  <p class="note">한국환경공단 굴뚝자동측정기기(TMS) 실시간 측정값을 바탕으로 가동 여부를 추정한 결과로, 실제 발전량과는 다를 수 있습니다.
+  '가동중지' 표시는 정지, NOx 1ppm 미만은 정지 추정으로 분류했습니다. 매시간 20분에 갱신됩니다.</p>
+  <div id="err"></div>
+</main>
+<script>
+var LABEL = {on:"가동", partial:"일부 가동", off:"정지", nodata:"자료 없음", hidden:"TMS 미공개"};
+
+function stackHtml(s){
+  var v = s.state=="on" ? s.nox.toFixed(2)
+        : s.state=="idle" ? s.nox.toFixed(2)+" (정지 추정)"
+        : s.state=="off" ? "가동중지" : "자료 없음";
+  return '<span class="stk '+s.state+'">#'+s.no+' '+v+'</span>';
+}
+
+fetch("tms.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
+  document.getElementById("sub").textContent =
+    (d.measured_at ? "측정시각: "+d.measured_at+" | " : "") + "수집 "+d.updated_at;
+
+  // 요약 카드
+  var n = {on:0, partial:0, off:0, etc:0};
+  d.units.forEach(function(u){
+    if(u.status in n) n[u.status]++; else n.etc++;
+  });
+  document.getElementById("cards").innerHTML =
+    '<div class="card"><b style="color:var(--on)">'+n.on+'</b><span>가동</span></div>'+
+    '<div class="card"><b style="color:var(--part)">'+n.partial+'</b><span>일부 가동</span></div>'+
+    '<div class="card"><b style="color:var(--off)">'+n.off+'</b><span>정지</span></div>'+
+    '<div class="card"><b style="color:#9aa6b6">'+n.etc+'</b><span>자료 없음·미공개</span></div>';
+
+  // 표
+  document.getElementById("body").innerHTML = d.units.map(function(u){
+    return '<tr><td class="l">'+u.name+'</td>'+
+      '<td><span class="badge '+u.status+'">'+LABEL[u.status]+'</span></td>'+
+      '<td>'+(u.stacks.length ? u.stacks.map(stackHtml).join("") : '<span class="stk">-</span>')+'</td></tr>';
+  }).join("");
+
+  if(d.errors && d.errors.length)
+    document.getElementById("err").innerHTML='<div class="err">일부 항목을 가져오지 못했습니다: '+d.errors.join(" / ")+"</div>";
+}).catch(function(){
+  document.getElementById("sub").textContent="";
+  document.getElementById("body").innerHTML='<tr><td colspan="3">tms.json을 찾을 수 없습니다. TMS 수집을 한 번 실행해 주세요.</td></tr>';
+});
+</script>
+</body>
+</html>
