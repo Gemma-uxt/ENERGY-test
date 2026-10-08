@@ -5,6 +5,7 @@
 import json
 import os
 import re
+import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -23,19 +24,23 @@ FUELS = {
     "fuelPwr7": "국내탄", "fuelPwr8": "신재생", "fuelPwr9": "태양광",
 }
 
-
 def call():
     q = urllib.parse.urlencode({
         "serviceKey": KEY, "pageNo": 1, "numOfRows": 300, "dataType": "JSON",
     })
-    req = urllib.request.Request(MIX_URL + "?" + q, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        text = r.read().decode("utf-8")
-    try:
-        return json.loads(text)
-    except ValueError:
-        raise RuntimeError("응답이 JSON이 아님: " + text[:200])
-
+    last = None
+    for attempt in range(3):          # 실패하면 10초 쉬고 최대 3번 시도
+        try:
+            req = urllib.request.Request(MIX_URL + "?" + q, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=60) as r:
+                text = r.read().decode("utf-8")
+            return json.loads(text)
+        except ValueError:
+            last = RuntimeError("응답이 JSON이 아님: " + text[:200])
+        except Exception as e:
+            last = e
+        time.sleep(10)
+    raise last
 
 def find_rows(obj, out):
     if isinstance(obj, dict):
@@ -102,7 +107,7 @@ def main():
             raw.setdefault(day, {})[s[8:12]] = vals
         print(len(rows), "건 수집")
     except Exception as e:
-        errors.append(str(e))
+        errors.append(f"발전원별 발전량 수집 실패 ({type(e).__name__}) {e}".strip())
 
     for d in sorted(raw)[:-KEEP_DAYS]:
         del raw[d]
