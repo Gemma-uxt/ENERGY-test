@@ -1,7 +1,7 @@
 name: TMS Collect
 on:
   schedule:
-      - cron: '20,50 * * * *'   # 30분마다 (20분, 50분)
+    - cron: '5,20,35,50 * * * *'   # 15분마다
   workflow_dispatch:
 permissions:
   contents: write
