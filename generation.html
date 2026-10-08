@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>발전량 확인 (TMS)</title>
 <style>
-:root{--navy:#1b3358;--ink:#1a2230;--mut:#66758a;--line:#d9e1ec;--bg:#f4f7fb;--on:#1f8a4c;color-scheme:light}
+:root{--navy:#1b3358;--ink:#1a2230;--mut:#66758a;--line:#cfd8e4;--bg:#f4f7fb;--on:#1f8a4c;color-scheme:light}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Noto Sans KR","Malgun Gothic",sans-serif;line-height:1.5}
 header{background:var(--navy);color:#fff;padding:22px 5vw;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
@@ -13,7 +13,7 @@ header h1{margin:0;font-size:26px}
 header p{margin:4px 0 0;font-size:13px;color:#b9c6da}
 nav{display:flex;gap:10px;flex-wrap:wrap}
 .btn{padding:10px 18px;border-radius:6px;background:#e8eef7;color:var(--navy);font-weight:600;font-size:14px;text-decoration:none}
-main{max-width:1000px;margin:0 auto;padding:28px 5vw 48px}
+main{max-width:1040px;margin:0 auto;padding:28px 4vw 48px}
 h2{font-size:19px;margin:0 0 12px;border-left:5px solid var(--navy);padding-left:10px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
 .card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
@@ -21,12 +21,11 @@ h2{font-size:19px;margin:0 0 12px;border-left:5px solid var(--navy);padding-left
 .card span{font-size:13px;color:var(--mut)}
 .wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line)}
-th,td{padding:10px 12px;border:1px solid var(--line);text-align:center;font-size:15px;white-space:nowrap}
-th{background:#eef2f7;color:var(--navy);font-size:14px}
-td.l{text-align:left}
-tr.g0 td{background:#e3eaf4;font-weight:700;color:var(--navy)}
-tr.g1 td{background:#eef2f8;font-weight:700}
-tr.g2 td{background:#f6f8fb;font-weight:600}
+th,td{padding:9px 10px;border:1px solid var(--line);text-align:center;font-size:14.5px}
+th{background:#eef2f7;color:var(--navy);line-height:1.3}
+th small{display:block;font-size:12px;font-weight:normal;color:var(--mut)}
+td.grp{background:#f6f8fb;font-weight:600;color:var(--navy)}
+td.nm{white-space:nowrap}
 .dot{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle}
 .dot.on{background:var(--on)}
 .dot.off{border:2px solid #c4ccd8}
@@ -48,88 +47,113 @@ tr.g2 td{background:#f6f8fb;font-weight:600}
   <div class="cards" id="cards"></div>
   <h2>발전기별 가동 현황</h2>
   <div class="wrap"><table>
-    <thead><tr><th>발전기</th><th>현재 상태</th><th>금일 발전시간</th><th>전일 발전시간</th><th>용량</th><th>연료</th></tr></thead>
+    <thead><tr>
+      <th colspan="4">사업장</th>
+      <th>현재상태<small id="h1">(기준 날짜, 시간)</small></th>
+      <th>금일 발전시간<small id="h2">(기준 날짜, 시간)</small></th>
+      <th>전일 발전시간<small id="h3">(기준 날짜)</small></th>
+      <th>발전용량</th>
+      <th>연료</th>
+    </tr></thead>
     <tbody id="body"></tbody>
   </table></div>
   <p class="note">● 가동 &nbsp; ○ 정지 &nbsp; - 자료 없음 &nbsp;|&nbsp; 한국환경공단 굴뚝자동측정기기(TMS) 측정값으로 가동 여부를 추정한 결과입니다.
-  발전시간은 30분마다 확인한 가동 상태를 0.5시간(30분) 단위로 합산한 값으로, 실제와 다를 수 있습니다.</p>
+  발전시간은 30분마다 확인한 가동 상태를 0.5시간(30분) 단위로 합산한 추정값으로, 실제와 다를 수 있습니다.</p>
   <div id="err"></div>
 </main>
 <script>
-// ▼ 묶음 구조 + 용량·연료 (cap, fuel 칸에 직접 입력하세요)
+// 사업장 구조 (span = 그 칸이 옆으로 차지하는 칸 수, 기본 1)
 var TREE = [
   {name:"SCL", children:[
-    {id:"에스파워", cap:"", fuel:"LNG"},
-    {id:"광명사업단", cap:"", fuel:"LNG"},
-    {id:"안산도시개발", cap:"", fuel:""}
+    {id:"에스파워", cap:"834MW", fuel:"KOGAS평균"},
+    {id:"광명사업단", cap:"46MW", fuel:"도시가스"},
+    {id:"안산도시개발", cap:"62.6MW", fuel:"도시가스"}
   ]},
   {name:"GS", children:[
-    {name:"GS파워", children:[
+    {name:"GS<br>파워", children:[
       {name:"안양", children:[
-        {id:"GS파워 안양 1호기", label:"1호기", cap:"", fuel:"LNG"},
-        {id:"GS파워 안양 2호기", label:"2호기", cap:"", fuel:"LNG"}
+        {id:"GS파워 안양 1호기", label:"1호기", cap:"481.7MW", fuel:"직도입"},
+        {id:"GS파워 안양 2호기", label:"2호기", cap:"481.7MW", fuel:"KOGAS평균"}
       ]},
-      {id:"GS파워 부천", label:"부천", cap:"", fuel:"LNG"}
+      {id:"GS파워 부천", label:"부천", cap:"460.6MW", fuel:"KOGAS평균"}
     ]},
-    {id:"청라에너지", cap:"", fuel:"LNG"},
-    {id:"인천종합에너지", cap:"", fuel:"LNG"},
-    {id:"위드인천에너지", cap:"", fuel:""}
+    {id:"청라에너지", label:"청라에너지(김포)", cap:"495MW", fuel:"KOGAS개별"},
+    {id:"인천종합에너지", cap:"187.3MW", fuel:"KOGAS평균"},
+    {id:"위드인천에너지", cap:"24MW", fuel:"도시가스"}
   ]},
-  {name:"GS E&R(반월)", children:[
-    {id:"GS E&R 반월 배출구1", label:"배출구1", cap:"", fuel:""},
-    {id:"GS E&R 반월 배출구2", label:"배출구2", cap:"", fuel:""},
-    {id:"GS E&R 반월 배출구3", label:"배출구3", cap:"", fuel:""},
-    {id:"GS E&R 반월 배출구4", label:"배출구4", cap:"", fuel:""},
-    {id:"GS E&R 반월 배출구11", label:"배출구11", cap:"", fuel:""}
+  {name:"GS E&R(반월)", span:2, children:[
+    {id:"GS E&R 반월 배출구1", label:"배출구1", cap:"", fuel:"KOGAS평균"},
+    {id:"GS E&R 반월 배출구2", label:"배출구2", cap:"", fuel:"KOGAS평균"},
+    {id:"GS E&R 반월 배출구3", label:"배출구3", cap:"", fuel:"KOGAS평균"},
+    {id:"GS E&R 반월 배출구4", label:"배출구4", cap:"", fuel:"KOGAS평균"},
+    {id:"GS E&R 반월 배출구11", label:"배출구11", cap:"", fuel:"KOGAS평균"}
   ]},
-  {name:"SK E&S", children:[
-    {name:"나래ES", children:[
-      {id:"위례열병합", cap:"", fuel:"LNG"},
-      {id:"하남열병합", cap:"", fuel:"LNG"}
+  {name:"SK<br>E&S", children:[
+    {name:"나래<br>ES", children:[
+      {id:"위례열병합", cap:"450MW", fuel:"직도입"},
+      {id:"하남열병합", cap:"400MW", fuel:"KOGAS평균"}
     ]}
   ]},
-  {name:"포천파워(DL)", children:[
-    {id:"포천파워 1호기", label:"1호기", cap:"", fuel:"LNG"},
-    {id:"포천파워 2호기", label:"2호기", cap:"", fuel:"LNG"}
+  {id:"DS파워", label:"DS파워(대성)", cap:"474MW", fuel:"KOGAS평균"},
+  {id:"평택에너지앤파워(E1)", cap:"833MW", fuel:"KOGAS평균"},
+  {name:"포천파워(DL)", span:2, children:[
+    {id:"포천파워 1호기", label:"1호기", cap:"780MW", fuel:"KOGAS평균"},
+    {id:"포천파워 2호기", label:"2호기", cap:"780MW", fuel:"KOGAS평균"}
   ]},
-  {name:"동두천드림파워", children:[
-    {id:"동두천드림파워 1호기", label:"1호기", cap:"", fuel:"LNG"},
-    {id:"동두천드림파워 2호기", label:"2호기", cap:"", fuel:"LNG"}
+  {id:"포천민자발전", cap:"987MW", fuel:"KOGAS평균"},
+  {name:"동두천드림파워", span:2, children:[
+    {id:"동두천드림파워 1호기", label:"1호기", cap:"858MW", fuel:"KOGAS평균"},
+    {id:"동두천드림파워 2호기", label:"2호기", cap:"858MW", fuel:"KOGAS평균"}
   ]},
-  {id:"DS파워", cap:"", fuel:"LNG"},
-  {id:"평택에너지앤파워(E1)", cap:"", fuel:"LNG"},
-  {id:"포천민자발전", cap:"", fuel:"LNG"},
-  {id:"통영에코파워", cap:"", fuel:"LNG"},
-  {id:"울산GPS(SK가스)", cap:"", fuel:"LNG·LPG"}
+  {id:"통영에코파워", label:"통영에코파워(HDC)", cap:"1,012MW", fuel:"직도입"},
+  {id:"울산GPS(SK가스)", label:"울산지피에스(SK가스)", cap:"1,227MW", fuel:"직도입"}
 ];
 
-var byId = {};
-function pad(lv){ return 'style="padding-left:'+(12+lv*24)+'px"'; }
-function hrs(v){ return v==null ? '<span class="mut">-</span>' : v+'시간'; }
+var COLS = 4, byId = {};
+var DASH = '<span class="mut">-</span>';
+function hrs(v){ return v==null ? DASH : v+'시간'; }
 function dot(s){
   if(s=="on") return '<span class="dot on" title="가동"></span>';
   if(s=="off") return '<span class="dot off" title="정지"></span>';
-  return '<span class="mut">-</span>';
+  return DASH;
 }
-function rows(nodes, lv){
-  return nodes.map(function(n){
+// 칸 합치기: 묶음은 아래 줄 수만큼 세로로 합치고, 발전기 이름은 남은 칸을 가로로 채움
+function build(nodes, col){
+  var out = [];
+  nodes.forEach(function(n){
     if(n.children){
-      return '<tr class="g'+Math.min(lv,2)+'"><td class="l" '+pad(lv)+'>'+n.name+'</td><td colspan="5"></td></tr>'
-             + rows(n.children, lv+1);
+      var span = n.span || 1;
+      var rows = build(n.children, col + span);
+      rows[0].unshift('<td class="grp" rowspan="'+rows.length+'" colspan="'+span+'">'+n.name+'</td>');
+      out = out.concat(rows);
+    } else {
+      var u = byId[n.id] || {};
+      out.push([
+        '<td class="nm" colspan="'+(COLS-col)+'">'+(n.label||n.id)+'</td>',
+        '<td>'+dot(u.status)+'</td>',
+        '<td>'+hrs(u.today_h)+'</td>',
+        '<td>'+hrs(u.yday_h)+'</td>',
+        '<td>'+(n.cap||DASH)+'</td>',
+        '<td>'+(n.fuel||DASH)+'</td>'
+      ]);
     }
-    var u = byId[n.id] || {};
-    return '<tr><td class="l" '+pad(lv)+'>'+(lv>0?'└ ':'')+(n.label||n.id)+'</td>'+
-      '<td>'+dot(u.status)+'</td>'+
-      '<td>'+hrs(u.today_h)+'</td><td>'+hrs(u.yday_h)+'</td>'+
-      '<td>'+(n.cap||'<span class="mut">-</span>')+'</td>'+
-      '<td>'+(n.fuel||'<span class="mut">-</span>')+'</td></tr>';
-  }).join("");
+  });
+  return out;
 }
+function md(s){ return s.slice(5,7)+"/"+s.slice(8,10); }
 
 fetch("tms.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
   document.getElementById("sub").textContent =
     (d.measured_at ? "측정시각: "+d.measured_at+" | " : "") + "수집 "+d.updated_at;
   d.units.forEach(function(u){ byId[u.id] = u; });
+
+  // 열 제목 아래 기준 날짜·시간
+  var base = d.measured_at || d.updated_at;
+  var y = new Date(base.slice(0,10)+"T00:00:00"); y.setDate(y.getDate()-1);
+  var yStr = String(y.getMonth()+1).padStart(2,"0")+"/"+String(y.getDate()).padStart(2,"0");
+  document.getElementById("h1").textContent = "("+md(base)+" "+base.slice(11,16)+")";
+  document.getElementById("h2").textContent = "("+md(base)+" 00:00~"+base.slice(11,16)+")";
+  document.getElementById("h3").textContent = "("+yStr+")";
 
   var n = {on:0, off:0, etc:0};
   d.units.forEach(function(u){ if(u.status in n) n[u.status]++; else n.etc++; });
@@ -138,13 +162,14 @@ fetch("tms.json?t="+Date.now()).then(function(r){ if(!r.ok) throw 0; return r.js
     '<div class="card"><b style="color:#8a96a8">'+n.off+'</b><span>정지</span></div>'+
     '<div class="card"><b style="color:#b5bfcc">'+n.etc+'</b><span>자료 없음</span></div>';
 
-  document.getElementById("body").innerHTML = rows(TREE, 0);
+  document.getElementById("body").innerHTML =
+    build(TREE, 0).map(function(r){ return "<tr>"+r.join("")+"</tr>"; }).join("");
 
   if(d.errors && d.errors.length)
     document.getElementById("err").innerHTML='<div class="err">확인 필요: '+d.errors.join(" / ")+"</div>";
 }).catch(function(){
   document.getElementById("sub").textContent="";
-  document.getElementById("body").innerHTML='<tr><td colspan="6">tms.json을 찾을 수 없습니다. TMS 수집을 한 번 실행해 주세요.</td></tr>';
+  document.getElementById("body").innerHTML='<tr><td colspan="9">tms.json을 찾을 수 없습니다. TMS 수집을 한 번 실행해 주세요.</td></tr>';
 });
 </script>
 </body>
