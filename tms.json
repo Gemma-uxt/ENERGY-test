@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-10-11 12:00",
-  "measured_at": "2026-10-11 10:30",
+  "updated_at": "2026-10-11 12:22",
+  "measured_at": "2026-10-11 11:00",
   "delayed": false,
   "units": [
     {
@@ -30,7 +30,7 @@
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 11.0,
+      "today_h": 11.5,
       "yday_h": 22.5
     },
     {
@@ -42,7 +42,7 @@
     {
       "id": "청라에너지",
       "status": "on",
-      "today_h": 11.0,
+      "today_h": 11.5,
       "yday_h": 23.0
     },
     {
@@ -60,7 +60,7 @@
     {
       "id": "GS E&R 반월 배출구1",
       "status": "on",
-      "today_h": 11.0,
+      "today_h": 11.5,
       "yday_h": 22.5
     },
     {
@@ -96,13 +96,13 @@
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 11.0,
+      "today_h": 11.5,
       "yday_h": 23.0
     },
     {
       "id": "DS파워",
       "status": "on",
-      "today_h": 11.0,
+      "today_h": 11.5,
       "yday_h": 23.0
     },
     {
@@ -126,7 +126,7 @@
     {
       "id": "포천민자발전",
       "status": "on",
-      "today_h": 9.5,
+      "today_h": 10.0,
       "yday_h": 14.5
     },
     {
