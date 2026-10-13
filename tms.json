@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-13 22:01",
-  "measured_at": "2026-10-13 20:30",
+  "updated_at": "2026-10-13 22:30",
+  "measured_at": "2026-10-13 21:00",
   "delayed": false,
   "units": [
     {
       "id": "에스파워",
       "status": "on",
-      "today_h": 14.0,
+      "today_h": 14.5,
       "yday_h": 16.0
     },
     {
       "id": "광명사업단",
       "status": "on",
-      "today_h": 18.0,
+      "today_h": 18.5,
       "yday_h": 13.5
     },
     {
@@ -30,7 +30,7 @@
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 18.0,
+      "today_h": 18.5,
       "yday_h": 21.5
     },
     {
@@ -42,12 +42,12 @@
     {
       "id": "청라에너지",
       "status": "on",
-      "today_h": 18.0,
+      "today_h": 18.5,
       "yday_h": 21.5
     },
     {
       "id": "인천종합에너지",
-      "status": "nodata",
+      "status": "off",
       "today_h": 12.5,
       "yday_h": 12.5
     },
@@ -59,14 +59,14 @@
     },
     {
       "id": "GS E&R 반월 배출구1",
-      "status": "nodata",
-      "today_h": 17.5,
+      "status": "on",
+      "today_h": 18.0,
       "yday_h": 21.5
     },
     {
       "id": "GS E&R 반월 배출구2",
-      "status": "nodata",
-      "today_h": 17.5,
+      "status": "on",
+      "today_h": 18.0,
       "yday_h": 21.5
     },
     {
@@ -96,19 +96,19 @@
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 18.0,
+      "today_h": 18.5,
       "yday_h": 16.5
     },
     {
       "id": "DS파워",
       "status": "on",
-      "today_h": 18.0,
+      "today_h": 18.5,
       "yday_h": 21.5
     },
     {
       "id": "평택에너지앤파워(E1)",
       "status": "on",
-      "today_h": 13.0,
+      "today_h": 13.5,
       "yday_h": 9.0
     },
     {
@@ -126,19 +126,19 @@
     {
       "id": "포천민자발전",
       "status": "on",
-      "today_h": 15.5,
+      "today_h": 16.0,
       "yday_h": 16.0
     },
     {
       "id": "동두천드림파워 1호기",
       "status": "on",
-      "today_h": 13.5,
+      "today_h": 14.0,
       "yday_h": 10.0
     },
     {
       "id": "동두천드림파워 2호기",
       "status": "on",
-      "today_h": 6.5,
+      "today_h": 7.0,
       "yday_h": 8.5
     },
     {
