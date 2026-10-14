@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-10-14 09:40",
-  "measured_at": "2026-10-14 08:30",
+  "updated_at": "2026-10-14 10:20",
+  "measured_at": "2026-10-14 09:00",
   "delayed": false,
   "units": [
     {
       "id": "에스파워",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 16.5
     },
     {
       "id": "광명사업단",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 20.5
     },
     {
@@ -30,7 +30,7 @@
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 20.5
     },
     {
@@ -42,13 +42,13 @@
     {
       "id": "청라에너지",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 20.5
     },
     {
       "id": "인천종합에너지",
       "status": "on",
-      "today_h": 2.5,
+      "today_h": 3.0,
       "yday_h": 12.5
     },
     {
@@ -60,13 +60,13 @@
     {
       "id": "GS E&R 반월 배출구1",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 20.0
     },
     {
       "id": "GS E&R 반월 배출구2",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 20.0
     },
     {
@@ -84,7 +84,7 @@
     {
       "id": "GS E&R 반월 배출구11",
       "status": "on",
-      "today_h": 1.5,
+      "today_h": 2.0,
       "yday_h": 7.5
     },
     {
@@ -96,13 +96,13 @@
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 20.5
     },
     {
       "id": "DS파워",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 20.5
     },
     {
@@ -114,7 +114,7 @@
     {
       "id": "포천파워 1호기",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 9.5
     },
     {
@@ -126,13 +126,13 @@
     {
       "id": "포천민자발전",
       "status": "on",
-      "today_h": 6.0,
+      "today_h": 6.5,
       "yday_h": 16.5
     },
     {
       "id": "동두천드림파워 1호기",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 15.0
     },
     {
