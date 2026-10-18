@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-10-19 04:54",
-  "measured_at": "2026-10-19 03:30",
+  "updated_at": "2026-10-19 05:26",
+  "measured_at": "2026-10-19 04:00",
   "delayed": false,
   "units": [
     {
@@ -12,7 +12,7 @@
     {
       "id": "광명사업단",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 19.5
     },
     {
@@ -30,7 +30,7 @@
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 19.5
     },
     {
@@ -42,7 +42,7 @@
     {
       "id": "청라에너지",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 19.5
     },
     {
@@ -60,13 +60,13 @@
     {
       "id": "GS E&R 반월 배출구1",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 1.5
     },
     {
       "id": "GS E&R 반월 배출구2",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 19.0
     },
     {
@@ -90,19 +90,19 @@
     {
       "id": "위례열병합",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 19.5
     },
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 19.5
     },
     {
       "id": "DS파워",
       "status": "on",
-      "today_h": 3.0,
+      "today_h": 3.5,
       "yday_h": 19.5
     },
     {
@@ -126,13 +126,13 @@
     {
       "id": "포천민자발전",
       "status": "on",
-      "today_h": 1.0,
+      "today_h": 1.5,
       "yday_h": 5.5
     },
     {
       "id": "동두천드림파워 1호기",
       "status": "on",
-      "today_h": 0.5,
+      "today_h": 1.0,
       "yday_h": 0.0
     },
     {
@@ -149,10 +149,12 @@
     },
     {
       "id": "울산GPS(SK가스)",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": 0.5
     }
   ],
-  "errors": []
+  "errors": [
+    "울산GPS(SK가스): 검색 결과 0건"
+  ]
 }
