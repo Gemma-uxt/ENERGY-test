@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-10-20 05:52",
-  "measured_at": "2026-10-20 04:30",
+  "updated_at": "2026-10-20 06:31",
+  "measured_at": "2026-10-20 05:00",
   "delayed": false,
   "units": [
     {
@@ -11,7 +11,7 @@
     },
     {
       "id": "광명사업단",
-      "status": "on",
+      "status": "nodata",
       "today_h": 3.5,
       "yday_h": 16.5
     },
@@ -30,7 +30,7 @@
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 16.0
     },
     {
@@ -42,7 +42,7 @@
     {
       "id": "청라에너지",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 16.5
     },
     {
@@ -60,13 +60,13 @@
     {
       "id": "GS E&R 반월 배출구1",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 16.0
     },
     {
       "id": "GS E&R 반월 배출구2",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 16.0
     },
     {
@@ -90,19 +90,19 @@
     {
       "id": "위례열병합",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 16.0
     },
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 16.5
     },
     {
       "id": "DS파워",
       "status": "on",
-      "today_h": 3.5,
+      "today_h": 4.0,
       "yday_h": 16.5
     },
     {
@@ -126,13 +126,13 @@
     {
       "id": "포천민자발전",
       "status": "on",
-      "today_h": 1.5,
+      "today_h": 2.0,
       "yday_h": 14.0
     },
     {
       "id": "동두천드림파워 1호기",
-      "status": "off",
-      "today_h": 0.0,
+      "status": "on",
+      "today_h": 0.5,
       "yday_h": 13.0
     },
     {
