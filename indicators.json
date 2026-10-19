@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-18 11:57",
+  "updated_at": "2026-10-19 12:01",
   "fx": {
     "date": "2026-10-16",
     "usd": {
@@ -20,14 +20,14 @@
       "date": "2026-10-18"
     },
     "brent": {
-      "value": 109.95,
+      "value": 107.99,
       "prev": 109.95,
-      "date": "2026-10-18"
+      "date": "2026-10-19"
     },
     "wti": {
-      "value": 99.0,
-      "prev": 97.31,
-      "date": "2026-10-17"
+      "value": 97.56,
+      "prev": 99.0,
+      "date": "2026-10-19"
     },
     "jkm": {
       "value": 29.93,
@@ -35,5 +35,7 @@
       "date": "2026-10-17"
     }
   },
-  "errors": []
+  "errors": [
+    "환율: <urlopen error [Errno 104] Connection reset by peer>"
+  ]
 }
