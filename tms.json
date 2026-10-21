@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-10-22 01:56",
-  "measured_at": "2026-10-22 00:30",
+  "updated_at": "2026-10-22 02:31",
+  "measured_at": "2026-10-22 01:00",
   "delayed": false,
   "units": [
     {
@@ -30,7 +30,7 @@
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 1.0,
+      "today_h": 1.5,
       "yday_h": 16.0
     },
     {
@@ -42,7 +42,7 @@
     {
       "id": "청라에너지",
       "status": "on",
-      "today_h": 1.0,
+      "today_h": 1.5,
       "yday_h": 16.0
     },
     {
@@ -60,13 +60,13 @@
     {
       "id": "GS E&R 반월 배출구1",
       "status": "on",
-      "today_h": 1.0,
+      "today_h": 1.5,
       "yday_h": 15.5
     },
     {
       "id": "GS E&R 반월 배출구2",
       "status": "on",
-      "today_h": 1.0,
+      "today_h": 1.5,
       "yday_h": 15.5
     },
     {
@@ -96,13 +96,13 @@
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 1.0,
+      "today_h": 1.5,
       "yday_h": 16.0
     },
     {
       "id": "DS파워",
-      "status": "nodata",
-      "today_h": 0.0,
+      "status": "on",
+      "today_h": 0.5,
       "yday_h": 7.0
     },
     {
@@ -144,7 +144,7 @@
     {
       "id": "통영에코파워",
       "status": "on",
-      "today_h": 0.5,
+      "today_h": 1.0,
       "yday_h": 0.0
     },
     {
@@ -154,7 +154,5 @@
       "yday_h": 1.5
     }
   ],
-  "errors": [
-    "DS파워: 검색 결과 0건"
-  ]
+  "errors": []
 }
