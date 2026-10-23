@@ -1,277 +1,27 @@
 {
-  "updated_at": "2026-10-23 07:20",
-  "yday": {
-    "date": "2026-10-22",
-    "avg": 117.46,
-    "wavg": 118.83,
-    "max": 146.38,
-    "max_h": 21,
-    "min": 104.39,
-    "min_h": 3,
-    "demand_max": 67638.0,
-    "hours": [
-      {
-        "h": 1,
-        "smp": 104.92,
-        "demand": 55239.0
-      },
-      {
-        "h": 2,
-        "smp": 104.42,
-        "demand": 53510.0
-      },
-      {
-        "h": 3,
-        "smp": 104.39,
-        "demand": 52298.0
-      },
-      {
-        "h": 4,
-        "smp": 104.88,
-        "demand": 51773.0
-      },
-      {
-        "h": 5,
-        "smp": 115.01,
-        "demand": 52278.0
-      },
-      {
-        "h": 6,
-        "smp": 116.22,
-        "demand": 53596.0
-      },
-      {
-        "h": 7,
-        "smp": 116.22,
-        "demand": 56716.0
-      },
-      {
-        "h": 8,
-        "smp": 116.22,
-        "demand": 59272.0
-      },
-      {
-        "h": 9,
-        "smp": 115.99,
-        "demand": 59070.0
-      },
-      {
-        "h": 10,
-        "smp": 104.88,
-        "demand": 56155.0
-      },
-      {
-        "h": 11,
-        "smp": 104.86,
-        "demand": 52224.0
-      },
-      {
-        "h": 12,
-        "smp": 104.84,
-        "demand": 49639.0
-      },
-      {
-        "h": 13,
-        "smp": 104.83,
-        "demand": 46824.0
-      },
-      {
-        "h": 14,
-        "smp": 104.82,
-        "demand": 50953.0
-      },
-      {
-        "h": 15,
-        "smp": 104.81,
-        "demand": 54121.0
-      },
-      {
-        "h": 16,
-        "smp": 104.82,
-        "demand": 58215.0
-      },
-      {
-        "h": 17,
-        "smp": 145.55,
-        "demand": 64008.0
-      },
-      {
-        "h": 18,
-        "smp": 146.34,
-        "demand": 66792.0
-      },
-      {
-        "h": 19,
-        "smp": 146.36,
-        "demand": 67638.0
-      },
-      {
-        "h": 20,
-        "smp": 146.37,
-        "demand": 66386.0
-      },
-      {
-        "h": 21,
-        "smp": 146.38,
-        "demand": 64250.0
-      },
-      {
-        "h": 22,
-        "smp": 118.65,
-        "demand": 62508.0
-      },
-      {
-        "h": 23,
-        "smp": 118.65,
-        "demand": 61558.0
-      },
-      {
-        "h": 24,
-        "smp": 118.65,
-        "demand": 59603.0
-      }
-    ]
-  },
-  "prev": {
-    "date": "2026-10-21",
-    "avg": 106.1,
-    "wavg": 106.49,
-    "max": 117.57,
-    "max_h": 19,
-    "min": 97.07,
-    "min_h": 4,
-    "demand_max": 67337.0,
-    "hours": [
-      {
-        "h": 1,
-        "smp": 112.51,
-        "demand": 54778.0
-      },
-      {
-        "h": 2,
-        "smp": 98.9,
-        "demand": 52904.0
-      },
-      {
-        "h": 3,
-        "smp": 97.2,
-        "demand": 51650.0
-      },
-      {
-        "h": 4,
-        "smp": 97.07,
-        "demand": 50870.0
-      },
-      {
-        "h": 5,
-        "smp": 97.07,
-        "demand": 51282.0
-      },
-      {
-        "h": 6,
-        "smp": 98.04,
-        "demand": 52626.0
-      },
-      {
-        "h": 7,
-        "smp": 104.98,
-        "demand": 55500.0
-      },
-      {
-        "h": 8,
-        "smp": 107.13,
-        "demand": 58628.0
-      },
-      {
-        "h": 9,
-        "smp": 107.13,
-        "demand": 61338.0
-      },
-      {
-        "h": 10,
-        "smp": 107.13,
-        "demand": 61158.0
-      },
-      {
-        "h": 11,
-        "smp": 107.13,
-        "demand": 59807.0
-      },
-      {
-        "h": 12,
-        "smp": 107.13,
-        "demand": 57254.0
-      },
-      {
-        "h": 13,
-        "smp": 97.62,
-        "demand": 50528.0
-      },
-      {
-        "h": 14,
-        "smp": 106.91,
-        "demand": 52014.0
-      },
-      {
-        "h": 15,
-        "smp": 107.13,
-        "demand": 54886.0
-      },
-      {
-        "h": 16,
-        "smp": 107.13,
-        "demand": 58973.0
-      },
-      {
-        "h": 17,
-        "smp": 109.15,
-        "demand": 64031.0
-      },
-      {
-        "h": 18,
-        "smp": 109.91,
-        "demand": 66515.0
-      },
-      {
-        "h": 19,
-        "smp": 117.57,
-        "demand": 67337.0
-      },
-      {
-        "h": 20,
-        "smp": 109.91,
-        "demand": 65695.0
-      },
-      {
-        "h": 21,
-        "smp": 109.91,
-        "demand": 63659.0
-      },
-      {
-        "h": 22,
-        "smp": 109.91,
-        "demand": 61929.0
-      },
-      {
-        "h": 23,
-        "smp": 109.91,
-        "demand": 60729.0
-      },
-      {
-        "h": 24,
-        "smp": 109.91,
-        "demand": 58795.0
-      }
-    ]
-  },
+  "updated_at": "2026-10-24 07:20",
+  "yday": null,
+  "prev": null,
   "week": [
+    {
+      "date": "2026-10-23",
+      "holiday": false,
+      "holiday_name": "",
+      "wavg": null,
+      "max": null,
+      "min": null,
+      "cap": 90637.0,
+      "peak": 69256.0,
+      "peak_h": "19",
+      "reserve": 30.9
+    },
     {
       "date": "2026-10-22",
       "holiday": false,
       "holiday_name": "",
-      "wavg": 118.83,
-      "max": 146.38,
-      "min": 104.39,
+      "wavg": null,
+      "max": null,
+      "min": null,
       "cap": 92141.0,
       "peak": 70617.0,
       "peak_h": "19",
@@ -281,9 +31,9 @@
       "date": "2026-10-21",
       "holiday": false,
       "holiday_name": "",
-      "wavg": 106.49,
-      "max": 117.57,
-      "min": 97.07,
+      "wavg": null,
+      "max": null,
+      "min": null,
       "cap": 91632.0,
       "peak": 70471.0,
       "peak_h": "19",
@@ -293,9 +43,9 @@
       "date": "2026-10-20",
       "holiday": false,
       "holiday_name": "",
-      "wavg": 110.64,
-      "max": 166.31,
-      "min": 96.49,
+      "wavg": null,
+      "max": null,
+      "min": null,
       "cap": 88387.0,
       "peak": 72050.0,
       "peak_h": "17",
@@ -305,9 +55,9 @@
       "date": "2026-10-19",
       "holiday": false,
       "holiday_name": "",
-      "wavg": 112.12,
-      "max": 131.21,
-      "min": 94.6,
+      "wavg": null,
+      "max": null,
+      "min": null,
       "cap": 90394.0,
       "peak": 71321.0,
       "peak_h": "19",
@@ -317,9 +67,9 @@
       "date": "2026-10-18",
       "holiday": true,
       "holiday_name": "",
-      "wavg": 106.32,
-      "max": 110.42,
-      "min": 97.92,
+      "wavg": null,
+      "max": null,
+      "min": null,
       "cap": 89278.0,
       "peak": 63643.0,
       "peak_h": "19",
@@ -329,36 +79,24 @@
       "date": "2026-10-17",
       "holiday": true,
       "holiday_name": "",
-      "wavg": 106.8,
-      "max": 110.61,
-      "min": 96.44,
+      "wavg": null,
+      "max": null,
+      "min": null,
       "cap": 89662.0,
       "peak": 62679.0,
       "peak_h": "19",
       "reserve": 43.0
-    },
-    {
-      "date": "2026-10-16",
-      "holiday": false,
-      "holiday_name": "",
-      "wavg": 109.42,
-      "max": 117.28,
-      "min": 97.64,
-      "cap": 92677.0,
-      "peak": 70755.0,
-      "peak_h": "19",
-      "reserve": 31.0
     }
   ],
-  "sample": {
-    "date": "20261022",
-    "jlfd": 590.0,
-    "slfd": 55829.0,
-    "hour": "01",
-    "areaName": "육지",
-    "smp": 104.92,
-    "rn": 1,
-    "mlfd": 55239.0
-  },
-  "errors": []
+  "sample": null,
+  "errors": [
+    "SMP 20261023: <urlopen error timed out>",
+    "SMP 20261022: <urlopen error timed out>",
+    "SMP 20261021: <urlopen error timed out>",
+    "SMP 20261020: <urlopen error timed out>",
+    "SMP 20261019: <urlopen error timed out>",
+    "SMP 20261018: <urlopen error timed out>",
+    "SMP 20261017: <urlopen error timed out>",
+    "공휴일: <urlopen error timed out> (주말만 표시)"
+  ]
 }
