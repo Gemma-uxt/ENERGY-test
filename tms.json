@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-25 00:28",
-  "measured_at": "2026-10-24 23:00",
+  "updated_at": "2026-10-25 00:59",
+  "measured_at": "2026-10-24 23:30",
   "delayed": false,
   "units": [
     {
       "id": "에스파워",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 19.5
+      "yday_h": 20.0
     },
     {
       "id": "광명사업단",
@@ -31,7 +31,7 @@
       "id": "GS파워 안양 2호기",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 19.0
+      "yday_h": 19.5
     },
     {
       "id": "GS파워 부천",
@@ -61,7 +61,7 @@
       "id": "GS E&R 반월 배출구1",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 18.5
+      "yday_h": 19.0
     },
     {
       "id": "GS E&R 반월 배출구2",
@@ -97,7 +97,7 @@
       "id": "하남열병합",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 19.0
+      "yday_h": 19.5
     },
     {
       "id": "DS파워",
@@ -109,7 +109,7 @@
       "id": "평택에너지앤파워(E1)",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 19.0
+      "yday_h": 19.5
     },
     {
       "id": "포천파워 1호기",
@@ -145,7 +145,7 @@
       "id": "통영에코파워",
       "status": "on",
       "today_h": 0.0,
-      "yday_h": 17.5
+      "yday_h": 18.0
     },
     {
       "id": "울산GPS(SK가스)",
