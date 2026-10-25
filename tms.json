@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-25 22:13",
-  "measured_at": "2026-10-25 21:00",
+  "updated_at": "2026-10-25 22:47",
+  "measured_at": "2026-10-25 21:30",
   "delayed": false,
   "units": [
     {
       "id": "에스파워",
       "status": "on",
-      "today_h": 17.5,
+      "today_h": 18.0,
       "yday_h": 20.0
     },
     {
@@ -30,13 +30,13 @@
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 17.0,
+      "today_h": 17.5,
       "yday_h": 19.5
     },
     {
       "id": "GS파워 부천",
       "status": "on",
-      "today_h": 2.0,
+      "today_h": 2.5,
       "yday_h": 0.0
     },
     {
@@ -60,7 +60,7 @@
     {
       "id": "GS E&R 반월 배출구1",
       "status": "on",
-      "today_h": 17.5,
+      "today_h": 18.0,
       "yday_h": 19.0
     },
     {
@@ -96,7 +96,7 @@
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 17.5,
+      "today_h": 18.0,
       "yday_h": 19.5
     },
     {
@@ -144,7 +144,7 @@
     {
       "id": "통영에코파워",
       "status": "on",
-      "today_h": 7.5,
+      "today_h": 8.0,
       "yday_h": 18.0
     },
     {
