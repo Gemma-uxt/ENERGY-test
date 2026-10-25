@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-25 20:58",
-  "measured_at": "2026-10-25 19:30",
+  "updated_at": "2026-10-25 21:34",
+  "measured_at": "2026-10-25 20:00",
   "delayed": false,
   "units": [
     {
       "id": "에스파워",
       "status": "on",
-      "today_h": 16.5,
+      "today_h": 17.0,
       "yday_h": 20.0
     },
     {
@@ -29,14 +29,14 @@
     },
     {
       "id": "GS파워 안양 2호기",
-      "status": "nodata",
-      "today_h": 16.0,
+      "status": "on",
+      "today_h": 16.5,
       "yday_h": 19.5
     },
     {
       "id": "GS파워 부천",
       "status": "on",
-      "today_h": 1.0,
+      "today_h": 1.5,
       "yday_h": 0.0
     },
     {
@@ -60,7 +60,7 @@
     {
       "id": "GS E&R 반월 배출구1",
       "status": "on",
-      "today_h": 16.5,
+      "today_h": 17.0,
       "yday_h": 19.0
     },
     {
@@ -96,7 +96,7 @@
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 16.5,
+      "today_h": 17.0,
       "yday_h": 19.5
     },
     {
@@ -131,20 +131,20 @@
     },
     {
       "id": "동두천드림파워 1호기",
-      "status": "on",
+      "status": "nodata",
       "today_h": 2.5,
       "yday_h": 5.0
     },
     {
       "id": "동두천드림파워 2호기",
-      "status": "off",
+      "status": "nodata",
       "today_h": 0.0,
       "yday_h": 0.0
     },
     {
       "id": "통영에코파워",
       "status": "on",
-      "today_h": 6.5,
+      "today_h": 7.0,
       "yday_h": 18.0
     },
     {
@@ -155,6 +155,8 @@
     }
   ],
   "errors": [
-    "DS파워: 검색 결과 0건"
+    "DS파워: 검색 결과 0건",
+    "동두천드림파워 1호기: 검색 결과 0건",
+    "동두천드림파워 2호기: 검색 결과 0건"
   ]
 }
