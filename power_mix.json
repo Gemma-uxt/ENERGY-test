@@ -1,6 +1,6 @@
 {
- "updated_at": "2026-10-28 14:45",
- "delayed": false,
+ "updated_at": "2026-10-28 15:54",
+ "delayed": true,
  "latest": {
   "time": "2026-10-28 14:25",
   "values": {
@@ -9169,6 +9169,8 @@
   "fuelPwr1": 320.795,
   "fuelPwr2": 128.043
  },
- "errors": [],
- "debug": null
+ "errors": [
+  "발전원별 발전량 수집 지연: 공공데이터포털 연결이 불안정해 14:25 자료까지 표시 중입니다. 연결되면 자동으로 채워집니다."
+ ],
+ "debug": "URLError: <urlopen error timed out>"
 }
