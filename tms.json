@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-30 12:27",
-  "measured_at": "2026-10-30 11:00",
+  "updated_at": "2026-10-30 13:20",
+  "measured_at": "2026-10-30 12:00",
   "delayed": false,
   "units": [
     {
       "id": "에스파워",
       "status": "on",
-      "today_h": 4.0,
+      "today_h": 4.5,
       "yday_h": 10.5
     },
     {
@@ -30,7 +30,7 @@
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 13.0
     },
     {
@@ -48,7 +48,7 @@
     {
       "id": "인천종합에너지",
       "status": "on",
-      "today_h": 4.0,
+      "today_h": 4.5,
       "yday_h": 8.5
     },
     {
@@ -59,14 +59,14 @@
     },
     {
       "id": "GS E&R 반월 배출구1",
-      "status": "nodata",
-      "today_h": 6.5,
+      "status": "on",
+      "today_h": 7.0,
       "yday_h": 12.5
     },
     {
       "id": "GS E&R 반월 배출구2",
-      "status": "nodata",
-      "today_h": 6.5,
+      "status": "on",
+      "today_h": 7.0,
       "yday_h": 12.5
     },
     {
@@ -83,7 +83,7 @@
     },
     {
       "id": "GS E&R 반월 배출구11",
-      "status": "on",
+      "status": "nodata",
       "today_h": 1.0,
       "yday_h": 2.0
     },
@@ -96,7 +96,7 @@
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 7.0,
+      "today_h": 7.5,
       "yday_h": 13.0
     },
     {
@@ -126,13 +126,13 @@
     {
       "id": "포천민자발전",
       "status": "on",
-      "today_h": 5.5,
+      "today_h": 6.0,
       "yday_h": 10.5
     },
     {
       "id": "동두천드림파워 1호기",
-      "status": "nodata",
-      "today_h": 0.5,
+      "status": "on",
+      "today_h": 1.0,
       "yday_h": 6.0
     },
     {
@@ -155,8 +155,6 @@
     }
   ],
   "errors": [
-    "DS파워: 검색 결과 0건",
-    "동두천드림파워 1호기: 검색 결과 0건",
-    "동두천드림파워 2호기: 검색 결과 0건"
+    "DS파워: 검색 결과 0건"
   ]
 }
