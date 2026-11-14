@@ -1,19 +1,19 @@
 {
-  "updated_at": "2026-11-14 19:59",
-  "measured_at": "2026-11-14 18:30",
+  "updated_at": "2026-11-15 01:58",
+  "measured_at": "2026-11-15 00:30",
   "delayed": false,
   "units": [
     {
       "id": "에스파워",
       "status": "on",
-      "today_h": 2.0,
+      "today_h": 0.5,
       "yday_h": 2.0
     },
     {
       "id": "광명사업단",
-      "status": "on",
-      "today_h": 1.5,
-      "yday_h": 2.0
+      "status": "nodata",
+      "today_h": 0.0,
+      "yday_h": 1.5
     },
     {
       "id": "안산도시개발",
@@ -24,13 +24,13 @@
     {
       "id": "GS파워 안양 1호기",
       "status": "off",
-      "today_h": 0.5,
-      "yday_h": 0.0
+      "today_h": 0.0,
+      "yday_h": 0.5
     },
     {
       "id": "GS파워 안양 2호기",
       "status": "on",
-      "today_h": 2.0,
+      "today_h": 0.5,
       "yday_h": 2.0
     },
     {
@@ -48,7 +48,7 @@
     {
       "id": "인천종합에너지",
       "status": "on",
-      "today_h": 2.0,
+      "today_h": 0.5,
       "yday_h": 2.0
     },
     {
@@ -59,21 +59,21 @@
     },
     {
       "id": "GS E&R 반월 배출구1",
-      "status": "nodata",
-      "today_h": 1.0,
-      "yday_h": 2.0
+      "status": "off",
+      "today_h": 0.0,
+      "yday_h": 1.0
     },
     {
       "id": "GS E&R 반월 배출구2",
       "status": "on",
-      "today_h": 1.5,
-      "yday_h": 2.0
+      "today_h": 0.5,
+      "yday_h": 1.5
     },
     {
       "id": "GS E&R 반월 배출구3",
       "status": "off",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "GS E&R 반월 배출구4",
@@ -91,31 +91,31 @@
       "id": "위례열병합",
       "status": "off",
       "today_h": 0.0,
-      "yday_h": 0.5
+      "yday_h": 0.0
     },
     {
       "id": "하남열병합",
       "status": "on",
-      "today_h": 2.0,
+      "today_h": 0.5,
       "yday_h": 2.0
     },
     {
       "id": "DS파워",
       "status": "on",
-      "today_h": 2.0,
+      "today_h": 0.5,
       "yday_h": 2.0
     },
     {
       "id": "평택에너지앤파워(E1)",
       "status": "off",
       "today_h": 0.0,
-      "yday_h": 2.0
+      "yday_h": 0.0
     },
     {
       "id": "포천파워 1호기",
       "status": "off",
       "today_h": 0.0,
-      "yday_h": 0.5
+      "yday_h": 0.0
     },
     {
       "id": "포천파워 2호기",
@@ -125,8 +125,8 @@
     },
     {
       "id": "포천민자발전",
-      "status": "on",
-      "today_h": 1.5,
+      "status": "off",
+      "today_h": 0.0,
       "yday_h": 1.5
     },
     {
@@ -138,14 +138,14 @@
     {
       "id": "동두천드림파워 2호기",
       "status": "on",
-      "today_h": 1.5,
-      "yday_h": 1.0
+      "today_h": 0.5,
+      "yday_h": 1.5
     },
     {
       "id": "통영에코파워",
       "status": "on",
-      "today_h": 2.0,
-      "yday_h": 1.0
+      "today_h": 0.5,
+      "yday_h": 2.0
     },
     {
       "id": "울산GPS(SK가스)",
@@ -154,5 +154,7 @@
       "yday_h": 0.0
     }
   ],
-  "errors": []
+  "errors": [
+    "광명사업단: 검색 결과 0건"
+  ]
 }
