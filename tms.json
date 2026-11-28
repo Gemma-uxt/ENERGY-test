@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-28 18:22",
+  "updated_at": "2026-11-29 02:45",
   "measured_at": "2026-11-27 16:00",
   "delayed": false,
   "units": [
@@ -7,13 +7,13 @@
       "id": "에스파워",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "광명사업단",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "안산도시개발",
@@ -25,13 +25,13 @@
       "id": "GS파워 안양 1호기",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 0.5
+      "yday_h": 0.0
     },
     {
       "id": "GS파워 안양 2호기",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "GS파워 부천",
@@ -43,13 +43,13 @@
       "id": "청라에너지",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 0.5
+      "yday_h": 0.0
     },
     {
       "id": "인천종합에너지",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "위드인천에너지",
@@ -61,19 +61,19 @@
       "id": "GS E&R 반월 배출구1",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "GS E&R 반월 배출구2",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "GS E&R 반월 배출구3",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "GS E&R 반월 배출구4",
@@ -91,61 +91,61 @@
       "id": "위례열병합",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "하남열병합",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "DS파워",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "평택에너지앤파워(E1)",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "포천파워 1호기",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 0.5
+      "yday_h": 0.0
     },
     {
       "id": "포천파워 2호기",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 0.5
+      "yday_h": 0.0
     },
     {
       "id": "포천민자발전",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "동두천드림파워 1호기",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "동두천드림파워 2호기",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 0.5
+      "yday_h": 0.0
     },
     {
       "id": "통영에코파워",
       "status": "nodata",
       "today_h": 0.0,
-      "yday_h": 1.0
+      "yday_h": 0.0
     },
     {
       "id": "울산GPS(SK가스)",
